@@ -395,20 +395,6 @@ class UnicodeActivity : BaseActivity() {
                                 Modifier.height(toolBarHeight),
                             )
 
-                            AndroidView(
-                                factory = { context ->
-                                    TextView(context).apply {
-                                        text = "✦  CHARACTER PLAYGROUND\nMake something wonderfully you"
-                                        textSize = 19f
-                                        setTextColor(android.graphics.Color.rgb(83, 48, 121))
-                                        setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
-                                        val pad = (18 * resources.displayMetrics.density).toInt()
-                                        setPadding(pad, pad, pad, pad)
-                                        setBackgroundColor(android.graphics.Color.rgb(255, 232, 214))
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 10.dp),
-                            )
                             Column(
                                 modifier = if (showBtnRow) {
                                     Modifier.fillMaxWidth()
