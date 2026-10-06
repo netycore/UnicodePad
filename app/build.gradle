@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlinx-serialization'
 
+def natkhatStoreFile = System.getenv("NATKHAT_STORE_FILE")
+def natkhatSigningReady = natkhatStoreFile != null
+
 android {
     compileSdkVersion 36
 
@@ -30,7 +33,23 @@ android {
         kotlinCompilerExtensionVersion = "1.5.2"
     }
 
+    signingConfigs {
+        if (natkhatSigningReady) {
+            natkhat {
+                storeFile file(natkhatStoreFile)
+                storePassword System.getenv("NATKHAT_STORE_PASSWORD")
+                keyAlias System.getenv("NATKHAT_KEY_ALIAS")
+                keyPassword System.getenv("NATKHAT_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            if (natkhatSigningReady) {
+                signingConfig signingConfigs.natkhat
+            }
+        }
         release {
             shrinkResources true
             minifyEnabled true

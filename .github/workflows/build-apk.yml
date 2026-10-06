@@ -1,4 +1,4 @@
-name: Build APK
+name: Build NatkhatBoard APK
 
 on:
   push:
@@ -29,7 +29,20 @@ jobs:
             "build-tools;36.0.0" \
             "platform-tools"
 
-      - name: Build F-Droid debug APK
+      - name: Decode signing keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.NATKHAT_KEYSTORE_BASE64 }}
+        shell: bash
+        run: |
+          test -n "$KEYSTORE_BASE64" || { echo "Keystore secret is missing"; exit 1; }
+          echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/natkhat-release.jks"
+
+      - name: Build signed F-Droid debug APK
+        env:
+          NATKHAT_STORE_FILE: ${{ runner.temp }}/natkhat-release.jks
+          NATKHAT_STORE_PASSWORD: ${{ secrets.NATKHAT_STORE_PASSWORD }}
+          NATKHAT_KEY_ALIAS: ${{ secrets.NATKHAT_KEY_ALIAS }}
+          NATKHAT_KEY_PASSWORD: ${{ secrets.NATKHAT_KEY_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon :app:assembleFdroidDebug
@@ -37,5 +50,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: UnicodePad-fdroid-debug
+          name: NatkhatBoard-fdroid-debug
           path: app/build/outputs/apk/fdroid/debug/*.apk
