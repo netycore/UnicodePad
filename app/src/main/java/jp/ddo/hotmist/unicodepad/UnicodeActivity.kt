@@ -15,7 +15,7 @@
 */
 package jp.ddo.hotmist.unicodepad
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
