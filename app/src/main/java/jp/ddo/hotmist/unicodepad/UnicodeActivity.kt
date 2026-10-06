@@ -374,9 +374,24 @@ class UnicodeActivity : BaseActivity() {
                     }
                     @Composable
                     fun MainView() {
-                        Column {
+                        Column(modifier = Modifier.fillMaxWidth().background(androidx.compose.ui.graphics.Color(0xFF0B1220))) {
                             Spacer(
                                 Modifier.height(toolBarHeight),
+                            )
+
+                            AndroidView(
+                                factory = { context ->
+                                    TextView(context).apply {
+                                        text = "NATKHATBOARD\\nUnicode character studio"
+                                        textSize = 21f
+                                        setTextColor(android.graphics.Color.WHITE)
+                                        setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
+                                        val pad = (18 * resources.displayMetrics.density).toInt()
+                                        setPadding(pad, pad, pad, pad)
+                                        setBackgroundColor(android.graphics.Color.rgb(23, 34, 53))
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
                             )
                             Row(
                                 modifier = if (showBtnRow) Modifier.fillMaxWidth() else Modifier.height(0.dp),
@@ -487,6 +502,19 @@ class UnicodeActivity : BaseActivity() {
                                     modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
                                 )
                             }
+                            AndroidView(
+                                factory = { context ->
+                                    TextView(context).apply {
+                                        text = "CHARACTER BOARD · TAP TO INSERT"
+                                        textSize = 12f
+                                        setTextColor(android.graphics.Color.rgb(100, 240, 192))
+                                        setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
+                                        val pad = (16 * resources.displayMetrics.density).toInt()
+                                        setPadding(pad, pad, pad, pad)
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
                             Box(
                                 modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                             ) {
