@@ -405,18 +405,6 @@ class UnicodeActivity : BaseActivity() {
                                         .padding(6.dp)
                                 } else Modifier.height(0.dp),
                             ) {
-                                AndroidView(
-                                    factory = { context ->
-                                        TextView(context).apply {
-                                            text = "QUICK ACTIONS"
-                                            textSize = 11f
-                                            setTextColor(android.graphics.Color.rgb(83, 48, 121))
-                                            setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
-                                            setPadding(12, 4, 12, 6)
-                                        }
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                )
                                 Row(modifier = Modifier.fillMaxWidth()) {
         AndroidView(
                                             factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
@@ -530,19 +518,6 @@ class UnicodeActivity : BaseActivity() {
                                     modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
                                 )
                             }
-                            AndroidView(
-                                factory = { context ->
-                                    TextView(context).apply {
-                                        text = "🌈  PICK A CHARACTER  ·  TAP TO INSERT"
-                                        textSize = 12f
-                                        setTextColor(android.graphics.Color.rgb(190, 78, 78))
-                                        setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
-                                        val pad = (16 * resources.displayMetrics.density).toInt()
-                                        setPadding(pad, pad, pad, pad)
-                                    }
-                                },
-                                modifier = Modifier.fillMaxWidth(),
-                            )
                             Box(
                                 modifier = Modifier.fillMaxWidth().fillMaxHeight()
                                     .padding(horizontal = 10.dp, vertical = 6.dp)
@@ -579,7 +554,7 @@ class UnicodeActivity : BaseActivity() {
                                             WindowInsetsCompat.CONSUMED
                                         }
                                     },
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier.fillMaxSize(),
                                 )
                             }
                         }
