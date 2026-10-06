@@ -37,6 +37,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -232,9 +233,10 @@ class UnicodeActivity : BaseActivity() {
                                         editTextHeight = coordinates.size.height.toDp()
                                     }
                                 }
-                                .background(Color(TypedValue().also { tv ->
-                                    theme.resolveAttribute(android.R.attr.colorBackground, tv, true)
-                                }.data)),
+                                .padding(horizontal = 12.dp, vertical = 6.dp)
+                                .background(Color(0xFFFFF7ED))
+                                .padding(horizontal = 6.dp, vertical = 4.dp)
+                                .background(Color.White, RoundedCornerShape(22.dp)),
                         ) {
                             val multiline = pref.getBoolean("multiline", false)
                             Box(
@@ -374,7 +376,7 @@ class UnicodeActivity : BaseActivity() {
                     }
                     @Composable
                     fun MainView() {
-                        Column(modifier = Modifier.fillMaxWidth().background(androidx.compose.ui.graphics.Color(0xFF0B1220))) {
+                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFFFF7ED))) {
                             Spacer(
                                 Modifier.height(toolBarHeight),
                             )
@@ -382,106 +384,130 @@ class UnicodeActivity : BaseActivity() {
                             AndroidView(
                                 factory = { context ->
                                     TextView(context).apply {
-                                        text = "NATKHATBOARD\\nUnicode character studio"
-                                        textSize = 21f
-                                        setTextColor(android.graphics.Color.WHITE)
+                                        text = "✦  CHARACTER PLAYGROUND\nMake something wonderfully you"
+                                        textSize = 19f
+                                        setTextColor(android.graphics.Color.rgb(83, 48, 121))
                                         setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
                                         val pad = (18 * resources.displayMetrics.density).toInt()
                                         setPadding(pad, pad, pad, pad)
-                                        setBackgroundColor(android.graphics.Color.rgb(23, 34, 53))
+                                        setBackgroundColor(android.graphics.Color.rgb(255, 232, 214))
                                     }
                                 },
-                                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 10.dp),
                             )
-                            Row(
-                                modifier = if (showBtnRow) Modifier.fillMaxWidth() else Modifier.height(0.dp),
+                            Column(
+                                modifier = if (showBtnRow) {
+                                    Modifier.fillMaxWidth()
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                        .background(Color(0xFFEDE3FF), RoundedCornerShape(22.dp))
+                                        .padding(6.dp)
+                                } else Modifier.height(0.dp),
                             ) {
                                 AndroidView(
-                                    factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
-                                        text = resources.getText(android.R.string.paste)
-                                    } },
-                                    update = {
-                                        it.setOnClickListener {
-                                            sessionStore.startNew(cm.text?.toString() ?: "")
-                                            applyCurrentSessionToEditor()
+                                    factory = { context ->
+                                        TextView(context).apply {
+                                            text = "QUICK ACTIONS"
+                                            textSize = 11f
+                                            setTextColor(android.graphics.Color.rgb(83, 48, 121))
+                                            setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
+                                            setPadding(12, 4, 12, 6)
                                         }
                                     },
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.fillMaxWidth(),
                                 )
-                                AndroidView(
-                                    factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
-                                        text = resources.getText(R.string.desc)
-                                    } },
-                                    update = {
-                                        it.setOnClickListener {
-                                            val str = editText.editableText.toString()
-                                            if (str.isEmpty()) return@setOnClickListener
-                                            val start = editText.selectionStart
-                                            if (start == -1) return@setOnClickListener
-                                            val end = editText.selectionEnd
-                                            adpPage.adapterEdit.updateString()
-                                            var pos = if (start == end) if (start == 0) 0 else start - 1 else min(start, end)
-                                            var i = 0
-                                            while (pos > 0) {
-                                                pos -= adpPage.adapterEdit.getItem(i++).length
-                                            }
-                                            if (pos < 0) i--
-                                            adpPage.showDesc(null, i, adpPage.adapterEdit)
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                )
-                                AndroidView(
-                                    factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
-                                        text = resources.getText(android.R.string.copy)
-                                    } },
-                                    update = {
-                                        it.setOnClickListener {
-                                            copyText(showToast = Build.VERSION.SDK_INT <= 32)
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                )
-                                AndroidView(
-                                    factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
-                                        btnFinish = this
-                                        viewTargets[R.id.finish] = this
-                                        text = resources.getText(finishAction)
-                                    } },
-                                    update = {
-                                        it.setOnClickListener {
-                                            when {
-                                                action == ACTION_INTERCEPT -> {
-                                                    setResult(RESULT_OK, Intent().apply {
-                                                        putExtra(
-                                                            REPLACE_KEY,
-                                                            editText.text.toString()
-                                                        )
-                                                    })
-                                                    finish()
+                                Row(modifier = Modifier.fillMaxWidth()) {
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(android.R.string.paste)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    sessionStore.startNew(cm.text?.toString() ?: "")
+                                                    applyCurrentSessionToEditor()
                                                 }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(R.string.desc)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    val str = editText.editableText.toString()
+                                                    if (str.isEmpty()) return@setOnClickListener
+                                                    val start = editText.selectionStart
+                                                    if (start == -1) return@setOnClickListener
+                                                    val end = editText.selectionEnd
+                                                    adpPage.adapterEdit.updateString()
+                                                    var pos = if (start == end) if (start == 0) 0 else start - 1 else min(start, end)
+                                                    var i = 0
+                                                    while (pos > 0) {
+                                                        pos -= adpPage.adapterEdit.getItem(i++).length
+                                                    }
+                                                    if (pos < 0) i--
+                                                    adpPage.showDesc(null, i, adpPage.adapterEdit)
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+                                }
+                                Row(modifier = Modifier.fillMaxWidth()) {
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(android.R.string.copy)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    copyText(showToast = Build.VERSION.SDK_INT <= 32)
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                btnFinish = this
+                                                viewTargets[R.id.finish] = this
+                                                text = resources.getText(finishAction)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    when {
+                                                        action == ACTION_INTERCEPT -> {
+                                                            setResult(RESULT_OK, Intent().apply {
+                                                                putExtra(
+                                                                    REPLACE_KEY,
+                                                                    editText.text.toString()
+                                                                )
+                                                            })
+                                                            finish()
+                                                        }
 
-                                                Build.VERSION.SDK_INT >= 23 && action == Intent.ACTION_PROCESS_TEXT -> {
-                                                    setResult(RESULT_OK, Intent().apply {
-                                                        putExtra(
-                                                            Intent.EXTRA_PROCESS_TEXT,
-                                                            editText.text
-                                                        )
-                                                    })
-                                                    finish()
-                                                }
+                                                        Build.VERSION.SDK_INT >= 23 && action == Intent.ACTION_PROCESS_TEXT -> {
+                                                            setResult(RESULT_OK, Intent().apply {
+                                                                putExtra(
+                                                                    Intent.EXTRA_PROCESS_TEXT,
+                                                                    editText.text
+                                                                )
+                                                            })
+                                                            finish()
+                                                        }
 
-                                                else -> {
-                                                    shareText()
+                                                        else -> {
+                                                            shareText()
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                        }
-                                    },
-                                    modifier = Modifier.weight(1f),
-                                )
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+                                }
                             }
                             Row(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .background(Color(0xFFDDF7EA), RoundedCornerShape(18.dp))
+                                    .padding(horizontal = 10.dp, vertical = 5.dp),
                             ) {
                                 AndroidView(
                                     factory = { context -> TextView(context, null, android.R.attr.textAppearanceSmall).apply {
@@ -505,9 +531,9 @@ class UnicodeActivity : BaseActivity() {
                             AndroidView(
                                 factory = { context ->
                                     TextView(context).apply {
-                                        text = "CHARACTER BOARD · TAP TO INSERT"
+                                        text = "🌈  PICK A CHARACTER  ·  TAP TO INSERT"
                                         textSize = 12f
-                                        setTextColor(android.graphics.Color.rgb(100, 240, 192))
+                                        setTextColor(android.graphics.Color.rgb(190, 78, 78))
                                         setTypeface(android.graphics.Typeface.DEFAULT_BOLD)
                                         val pad = (16 * resources.displayMetrics.density).toInt()
                                         setPadding(pad, pad, pad, pad)
@@ -516,7 +542,10 @@ class UnicodeActivity : BaseActivity() {
                                 modifier = Modifier.fillMaxWidth(),
                             )
                             Box(
-                                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                                    .background(Color.White, RoundedCornerShape(24.dp))
+                                    .padding(6.dp),
                             ) {
                                 Column {
                                     AndroidView(
