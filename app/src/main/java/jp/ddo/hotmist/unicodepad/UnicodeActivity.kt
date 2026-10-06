@@ -15,6 +15,16 @@
 */
 package jp.ddo.hotmist.unicodepad
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
@@ -192,6 +202,10 @@ class UnicodeActivity : BaseActivity() {
         setContentView(ComposeView(this).apply {
             consumeWindowInsets = false
             setContent {
+            var showOpeningAnimation by remember {
+                mutableStateOf(savedInstanceState == null && intent.action == Intent.ACTION_MAIN)
+            }
+
                 val density = LocalDensity.current
                 var toolBarHeight by remember {
                     mutableStateOf(0.dp)
@@ -695,6 +709,12 @@ class UnicodeActivity : BaseActivity() {
                 LaunchedEffect(Unit) {
                     composed.value = true
                 }
+                LaunchedEffect(showOpeningAnimation) {
+                    if (showOpeningAnimation) {
+                        kotlinx.coroutines.delay(1_050)
+                        showOpeningAnimation = false
+                    }
+                }
 
                 if (composed.value) {
                     val lifecycleOwner = LocalLifecycleOwner.current
@@ -712,6 +732,46 @@ class UnicodeActivity : BaseActivity() {
 
                         onDispose {
                             lifecycleOwner.lifecycle.removeObserver(observer)
+                        }
+                    }
+                }
+                AnimatedVisibility(
+                    visible = showOpeningAnimation,
+                    enter = fadeIn(tween(250)) + scaleIn(
+                        initialScale = 0.92f,
+                        animationSpec = tween(350)
+                    ),
+                    exit = fadeOut(tween(250)) + scaleOut(
+                        targetScale = 1.04f,
+                        animationSpec = tween(250)
+                    ),
+                    modifier = Modifier.fillMaxSize().zIndex(2f)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xFFFFF7E8))
+                            .clickable { },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "✦",
+                                fontSize = 56.sp,
+                                color = Color(0xFFFF6B5E)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = "NatkhatBoard",
+                                fontSize = 30.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF3E236D)
+                            )
+                            Text(
+                                text = "Unicode, with a little mischief",
+                                fontSize = 14.sp,
+                                color = Color(0xFF665B70)
+                            )
                         }
                     }
                 }
