@@ -12,7 +12,7 @@
    limitations under the License.
  -->
 <resources>
-	<string name="app_name">UnicodePad</string>
+	<string name="app_name">NatkhatBoard</string>
 	<string name="delete">Удалить</string>
 	<string name="desc">Подробно</string>
 	<string name="find">Поиск</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- translation by Dennis Fluttershy https://play.google.com/store/apps/developer?id=Dennis%20Fluttershy -->
 <resources>
-	<string name="app_name">UnicodePad</string>
+	<string name="app_name">NatkhatBoard</string>
 	<string name="delete">Radera</string>
 	<string name="desc">Detaljer</string>
 	<string name="find">Sök</string>
