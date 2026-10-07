@@ -28,10 +28,25 @@ jobs:
             "build-tools;36.0.0" \
             "platform-tools"
 
+      - name: Restore signing keystore
+        env:
+          NATKHAT_KEYSTORE_BASE64: ${{ secrets.NATKHAT_KEYSTORE_BASE64 }}
+        run: |
+          echo "$NATKHAT_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/natkhatboard-release.jks"
+
       - name: Build debug APK
+        env:
+          NATKHAT_STORE_FILE: ${{ runner.temp }}/natkhatboard-release.jks
+          NATKHAT_STORE_PASSWORD: ${{ secrets.NATKHAT_STORE_PASSWORD }}
+          NATKHAT_KEY_ALIAS: ${{ secrets.NATKHAT_KEY_ALIAS }}
+          NATKHAT_KEY_PASSWORD: ${{ secrets.NATKHAT_KEY_PASSWORD }}
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon :app:assembleFdroidDebug
+
+      - name: Cleanup signing keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/natkhatboard-release.jks"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

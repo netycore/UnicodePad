@@ -395,77 +395,106 @@ class UnicodeActivity : BaseActivity() {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color(0xFF0D1026))
+                                .background(Color(0xFF080B18))
                         ) {
                             Spacer(Modifier.height(toolBarHeight))
 
-                            // Editor universe
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(horizontal = 14.dp, vertical = 10.dp)
+                                    .padding(horizontal = 14.dp, vertical = 8.dp)
                             ) {
-                                Text(
-                                    text = "✦  NATKHATBOARD",
-                                    color = Color(0xFFE8D9FF),
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp)
-                                )
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Column(
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Text(
+                                            text = "NATKHATBOARD",
+                                            color = Color(0xFFF3EFFF),
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = "CREATE YOUR OWN STYLE",
+                                            color = Color(0xFF777B9D),
+                                            fontSize = 9.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
 
-                                Text(
-                                    text = "UNICODE UNIVERSE",
-                                    color = Color(0xFF777A9E),
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    modifier = Modifier.padding(horizontal = 6.dp)
-                                )
+                                    Box(
+                                        modifier = Modifier
+                                            .background(
+                                                Color(0xFF171B31),
+                                                RoundedCornerShape(18.dp)
+                                            )
+                                            .padding(horizontal = 12.dp, vertical = 8.dp)
+                                    ) {
+                                        Text(
+                                            text = "✦  MAGIC",
+                                            color = Color(0xFFD7B8FF),
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
 
-                                Spacer(Modifier.height(10.dp))
+                                Spacer(Modifier.height(12.dp))
 
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(
-                                            Color(0xFF181C3A),
-                                            RoundedCornerShape(28.dp)
+                                            Color(0xFF11162A),
+                                            RoundedCornerShape(26.dp)
                                         )
-                                        .padding(10.dp),
+                                        .padding(8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Box(
                                         modifier = Modifier
                                             .weight(1f)
-                                            .heightIn(min = 100.dp, max = fontsize.dp * 5)
                                             .background(
-                                                Color(0xFFF9F7FF),
-                                                RoundedCornerShape(22.dp)
+                                                Color(0xFFF8F5FF),
+                                                RoundedCornerShape(20.dp)
                                             )
-                                            .padding(14.dp)
+                                            .padding(horizontal = 14.dp, vertical = 12.dp)
                                     ) {
-                                        AndroidView(
-                                            factory = { editText },
-                                            modifier = Modifier.fillMaxSize()
+                                        Text(
+                                            text = if (editText.text.isNullOrEmpty())
+                                                "Start creating something ✦"
+                                            else
+                                                editText.text.toString(),
+                                            color = if (editText.text.isNullOrEmpty())
+                                                Color(0xFF9291A0)
+                                            else
+                                                Color(0xFF242033),
+                                            fontSize = 17.sp,
+                                            fontWeight = FontWeight.Medium
                                         )
+                                    }
 
-                                        Box(
-                                            modifier = Modifier
-                                                .align(Alignment.BottomEnd)
-                                                .background(
-                                                    Color(0xFF7C4DFF),
-                                                    RoundedCornerShape(16.dp)
-                                                )
-                                                .clickable {
-                                                    copyText(showToast = Build.VERSION.SDK_INT <= 32)
-                                                }
-                                                .padding(horizontal = 13.dp, vertical = 9.dp)
-                                        ) {
-                                            Text(
-                                                text = "⧉",
-                                                color = Color.White,
-                                                fontSize = 18.sp
+                                    Spacer(Modifier.width(8.dp))
+
+                                    Box(
+                                        modifier = Modifier
+                                            .background(
+                                                Color(0xFF9A62FF),
+                                                RoundedCornerShape(19.dp)
                                             )
-                                        }
+                                            .clickable {
+                                                copyText(showToast = Build.VERSION.SDK_INT <= 32)
+                                            }
+                                            .padding(horizontal = 15.dp, vertical = 15.dp)
+                                    ) {
+                                        Text(
+                                            text = "⧉",
+                                            color = Color.White,
+                                            fontSize = 18.sp
+                                        )
                                     }
                                 }
 
@@ -473,62 +502,72 @@ class UnicodeActivity : BaseActivity() {
 
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    horizontalArrangement =
+                                        androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
                                 ) {
-                                    UniverseButton(
-                                        "↶",
-                                        "UNDO",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "↶",
+                                        title = "UNDO",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         if (::itemUndo.isInitialized) itemUndo.performClick()
                                     }
 
-                                    UniverseButton(
-                                        "⧉",
-                                        "COPY",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "⧉",
+                                        title = "COPY",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         copyText(showToast = Build.VERSION.SDK_INT <= 32)
                                     }
 
-                                    UniverseButton(
-                                        "↗",
-                                        "SHARE",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "↗",
+                                        title = "SHARE",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         shareText()
                                     }
                                 }
 
-                                Spacer(Modifier.height(10.dp))
+                                Spacer(Modifier.height(8.dp))
 
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    horizontalArrangement =
+                                        androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
                                 ) {
-                                    UniverseButton(
-                                        "✦",
-                                        "PASTE",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "↓",
+                                        title = "PASTE",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         sessionStore.startNew(cm.text?.toString() ?: "")
                                         applyCurrentSessionToEditor()
                                     }
 
-                                    UniverseButton(
-                                        "Aa",
-                                        "FONT",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "Aa",
+                                        title = "FONT",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         chooser.spinner.performClick()
                                     }
 
-                                    UniverseButton(
-                                        "⚡",
-                                        "MAGIC",
-                                        Modifier.weight(1f)
+                                    NebulaAction(
+                                        icon = "◎",
+                                        title = "LANG",
+                                        modifier = Modifier.weight(1f)
                                     ) {
                                         locale.spinner.performClick()
+                                    }
+
+                                    NebulaAction(
+                                        icon = "⋯",
+                                        title = "MORE",
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        if (::itemUndo.isInitialized) itemUndo.performClick()
                                     }
                                 }
 
@@ -538,37 +577,77 @@ class UnicodeActivity : BaseActivity() {
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(
-                                            Color(0xFF181C3A),
+                                            Color(0xFF11162A),
                                             RoundedCornerShape(22.dp)
                                         )
-                                        .padding(6.dp),
-                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                        .padding(5.dp),
+                                    horizontalArrangement =
+                                        androidx.compose.foundation.layout.Arrangement.spacedBy(4.dp)
                                 ) {
-                                    listOf("ALPHABET", "COMBINE", "SYMBOLS", "MAGIC").forEachIndexed { i, label ->
-                                        Text(
-                                            text = label,
-                                            color = if (i == 0) Color.White else Color(0xFF777A9E),
-                                            fontSize = 11.sp,
-                                            fontWeight = FontWeight.Bold,
+                                    listOf(
+                                        "ALPHABET",
+                                        "STYLES",
+                                        "SYMBOLS",
+                                        "COMBINE"
+                                    ).forEachIndexed { index, name ->
+                                        Box(
                                             modifier = Modifier
+                                                .weight(1f)
                                                 .background(
-                                                    if (i == 0) Color(0xFF7C4DFF) else Color.Transparent,
-                                                    RoundedCornerShape(16.dp)
+                                                    if (index == 0)
+                                                        Color(0xFF9A62FF)
+                                                    else
+                                                        Color.Transparent,
+                                                    RoundedCornerShape(17.dp)
                                                 )
-                                                .padding(horizontal = 12.dp, vertical = 9.dp)
-                                        )
+                                                .padding(vertical = 9.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = name,
+                                                color = if (index == 0)
+                                                    Color.White
+                                                else
+                                                    Color(0xFF777B9D),
+                                                fontSize = 8.sp,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        }
                                     }
                                 }
 
                                 Spacer(Modifier.height(10.dp))
 
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "UNICODE",
+                                        color = Color(0xFF8E91B0),
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    Spacer(Modifier.weight(1f))
+
+                                    Text(
+                                        text = "SWIPE TO EXPLORE  ›",
+                                        color = Color(0xFF5F6382),
+                                        fontSize = 8.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+
+                                Spacer(Modifier.height(7.dp))
+
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .height(300.dp)
+                                        .height(310.dp)
                                         .background(
-                                            Color(0xFFF9F7FF),
-                                            RoundedCornerShape(26.dp)
+                                            Color(0xFFF8F5FF),
+                                            RoundedCornerShape(28.dp)
                                         )
                                         .padding(6.dp)
                                 ) {
@@ -576,25 +655,40 @@ class UnicodeActivity : BaseActivity() {
                                         factory = { pager },
                                         update = {
                                             pager.offscreenPageLimit = 3
+
                                             adpPage.also { adp ->
                                                 pager.adapter = adp
                                                 scroll?.setAdapter(adp)
                                             }
+
                                             scroll?.setLockView(pager, true)
+
                                             pager.setCurrentItem(
-                                                min(pref.getInt("page", 1), adpPage.count - 1),
+                                                min(
+                                                    pref.getInt("page", 1),
+                                                    adpPage.count - 1
+                                                ),
                                                 false
                                             )
+
                                             it.adapter = adpPage
+
                                             it.setCurrentItem(
-                                                min(pref.getInt("page", 1), adpPage.count - 1),
+                                                min(
+                                                    pref.getInt("page", 1),
+                                                    adpPage.count - 1
+                                                ),
                                                 false
                                             )
-                                            ViewCompat.setOnApplyWindowInsetsListener(it) { _, windowInsets ->
+
+                                            ViewCompat.setOnApplyWindowInsetsListener(
+                                                it
+                                            ) { _, windowInsets ->
                                                 val insets = windowInsets.getInsets(
                                                     WindowInsetsCompat.Type.systemBars() or
                                                         WindowInsetsCompat.Type.ime()
                                                 )
+
                                                 adpPage.onInsetChanged(insets.bottom)
                                                 WindowInsetsCompat.CONSUMED
                                             }
@@ -606,49 +700,51 @@ class UnicodeActivity : BaseActivity() {
                                 Spacer(Modifier.height(8.dp))
 
                                 Text(
-                                    text = "✦  DRAG • TAP • CREATE  ✦",
-                                    color = Color(0xFF777A9E),
-                                    fontSize = 10.sp,
+                                    text = "✦  TAP A CHARACTER TO ADD IT",
+                                    color = Color(0xFF5F6382),
+                                    fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 4.dp)
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                             }
                         }
                     }
 
                     @Composable
-                    fun UniverseButton(
+                    fun NebulaAction(
                         icon: String,
-                        label: String,
+                        title: String,
                         modifier: Modifier,
                         onClick: () -> Unit
                     ) {
                         Column(
                             modifier = modifier
                                 .background(
-                                    Color(0xFF181C3A),
+                                    Color(0xFF11162A),
                                     RoundedCornerShape(18.dp)
                                 )
                                 .clickable { onClick() }
-                                .padding(vertical = 10.dp),
+                                .padding(vertical = 9.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
                                 text = icon,
-                                color = Color(0xFFD8C4FF),
-                                fontSize = 19.sp,
+                                color = Color(0xFFD6B8FF),
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
+
+                            Spacer(Modifier.height(2.dp))
+
                             Text(
-                                text = label,
-                                color = Color(0xFF8E91B5),
-                                fontSize = 9.sp,
+                                text = title,
+                                color = Color(0xFF777B9D),
+                                fontSize = 8.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
+
                     AndroidView(
                         factory = { context -> CoordinatorLayout(context).apply {
                             addView(LinearLayout(context).apply {
