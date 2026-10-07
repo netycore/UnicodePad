@@ -34,6 +34,15 @@ jobs:
         run: |
           echo "$NATKHAT_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/natkhatboard-release.jks"
 
+      - name: Verify signing keystore
+        env:
+          NATKHAT_STORE_PASSWORD: ${{ secrets.NATKHAT_STORE_PASSWORD }}
+        run: |
+          echo "Checking restored signing keystore..."
+          keytool -list \
+            -keystore "$RUNNER_TEMP/natkhatboard-release.jks" \
+            -storepass "$NATKHAT_STORE_PASSWORD"
+
       - name: Build debug APK
         env:
           NATKHAT_STORE_FILE: ${{ runner.temp }}/natkhatboard-release.jks
