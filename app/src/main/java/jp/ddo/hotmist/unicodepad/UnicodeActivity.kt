@@ -15,6 +15,7 @@
 */
 package jp.ddo.hotmist.unicodepad
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Text
 
 import androidx.compose.animation.AnimatedVisibility
@@ -405,94 +406,66 @@ class UnicodeActivity : BaseActivity() {
                                         .padding(6.dp)
                                 } else Modifier.height(0.dp),
                             ) {
-                                Row(modifier = Modifier.fillMaxWidth()) {
-        AndroidView(
-                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceEvenly,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    AndroidView(
+                                        factory = { context ->
+                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
                                                 text = resources.getText(android.R.string.paste)
-                                            } },
-                                            update = {
-                                                it.setOnClickListener {
-                                                    sessionStore.startNew(cm.text?.toString() ?: "")
-                                                    applyCurrentSessionToEditor()
-                                                }
-                                            },
-                                            modifier = Modifier.weight(1f),
-                                        )
-        AndroidView(
-                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                            }
+                                        },
+                                        update = {
+                                            it.setOnClickListener {
+                                                sessionStore.startNew(cm.text?.toString() ?: "")
+                                                applyCurrentSessionToEditor()
+                                            }
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    )
+
+                                    AndroidView(
+                                        factory = { context ->
+                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
                                                 text = resources.getText(R.string.desc)
-                                            } },
-                                            update = {
-                                                it.setOnClickListener {
-                                                    val str = editText.editableText.toString()
-                                                    if (str.isEmpty()) return@setOnClickListener
-                                                    val start = editText.selectionStart
-                                                    if (start == -1) return@setOnClickListener
-                                                    val end = editText.selectionEnd
-                                                    adpPage.adapterEdit.updateString()
-                                                    var pos = if (start == end) if (start == 0) 0 else start - 1 else min(start, end)
-                                                    var i = 0
-                                                    while (pos > 0) {
-                                                        pos -= adpPage.adapterEdit.getItem(i++).length
-                                                    }
-                                                    if (pos < 0) i--
-                                                    adpPage.showDesc(null, i, adpPage.adapterEdit)
+                                            }
+                                        },
+                                        update = {
+                                            it.setOnClickListener {
+                                                val str = editText.editableText.toString()
+                                                if (str.isEmpty()) return@setOnClickListener
+                                                val start = editText.selectionStart
+                                                if (start == -1) return@setOnClickListener
+                                                val end = editText.selectionEnd
+                                                adpPage.adapterEdit.updateString()
+                                                var pos = if (start == end) if (start == 0) 0 else start - 1 else min(start, end)
+                                                var i = 0
+                                                while (pos > 0) {
+                                                    pos -= adpPage.adapterEdit.getItem(i++).length
                                                 }
-                                            },
-                                            modifier = Modifier.weight(1f),
-                                        )
-                                }
-                                Row(modifier = Modifier.fillMaxWidth()) {
-        AndroidView(
-                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                if (pos < 0) i--
+                                                adpPage.showDesc(null, i, adpPage.adapterEdit)
+                                            }
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    )
+
+                                    AndroidView(
+                                        factory = { context ->
+                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
                                                 text = resources.getText(android.R.string.copy)
-                                            } },
-                                            update = {
-                                                it.setOnClickListener {
-                                                    copyText(showToast = Build.VERSION.SDK_INT <= 32)
-                                                }
-                                            },
-                                            modifier = Modifier.weight(1f),
-                                        )
-        AndroidView(
-                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
-                                                btnFinish = this
-                                                viewTargets[R.id.finish] = this
-                                                text = resources.getText(finishAction)
-                                            } },
-                                            update = {
-                                                it.setOnClickListener {
-                                                    when {
-                                                        action == ACTION_INTERCEPT -> {
-                                                            setResult(RESULT_OK, Intent().apply {
-                                                                putExtra(
-                                                                    REPLACE_KEY,
-                                                                    editText.text.toString()
-                                                                )
-                                                            })
-                                                            finish()
-                                                        }
-
-                                                        Build.VERSION.SDK_INT >= 23 && action == Intent.ACTION_PROCESS_TEXT -> {
-                                                            setResult(RESULT_OK, Intent().apply {
-                                                                putExtra(
-                                                                    Intent.EXTRA_PROCESS_TEXT,
-                                                                    editText.text
-                                                                )
-                                                            })
-                                                            finish()
-                                                        }
-
-                                                        else -> {
-                                                            shareText()
-                                                        }
-                                                    }
-                                                }
-                                            },
-                                            modifier = Modifier.weight(1f),
-                                        )
+                                            }
+                                        },
+                                        update = {
+                                            it.setOnClickListener {
+                                                copyText(showToast = Build.VERSION.SDK_INT <= 32)
+                                            }
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                    )
                                 }
-                            }
                             Row(
                                 modifier = Modifier.fillMaxWidth()
                                     .padding(horizontal = 12.dp, vertical = 6.dp)
