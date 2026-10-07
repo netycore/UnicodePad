@@ -38,7 +38,7 @@ jobs:
         env:
           NATKHAT_STORE_FILE: ${{ runner.temp }}/natkhatboard-release.jks
           NATKHAT_STORE_PASSWORD: ${{ secrets.NATKHAT_STORE_PASSWORD }}
-          NATKHAT_KEY_ALIAS: ${{ secrets.NATKHAT_KEY_ALIAS }}
+          NATKHAT_KEY_ALIAS: natkhatboard
           NATKHAT_KEY_PASSWORD: ${{ secrets.NATKHAT_KEY_PASSWORD }}
         run: |
           chmod +x gradlew
