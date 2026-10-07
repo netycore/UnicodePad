@@ -67,6 +67,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -115,6 +116,41 @@ import androidx.core.view.children
 
 
 @Suppress("DEPRECATION")
+@Composable
+private fun NebulaAction(
+    icon: String,
+    title: String,
+    modifier: Modifier,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .background(
+                Color(0xFF11162A),
+                RoundedCornerShape(18.dp)
+            )
+            .clickable { onClick() }
+            .padding(vertical = 9.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = icon,
+            color = Color(0xFFD6B8FF),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Spacer(Modifier.height(2.dp))
+
+        Text(
+            text = title,
+            color = Color(0xFF777B9D),
+            fontSize = 8.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
 class UnicodeActivity : BaseActivity() {
     private lateinit var editText: EditText
     private var initialText by mutableStateOf<String?>(null)
@@ -510,7 +546,7 @@ class UnicodeActivity : BaseActivity() {
                                         title = "UNDO",
                                         modifier = Modifier.weight(1f)
                                     ) {
-                                        if (::itemUndo.isInitialized) itemUndo.performClick()
+                                        Unit
                                     }
 
                                     NebulaAction(
@@ -567,7 +603,7 @@ class UnicodeActivity : BaseActivity() {
                                         title = "MORE",
                                         modifier = Modifier.weight(1f)
                                     ) {
-                                        if (::itemUndo.isInitialized) itemUndo.performClick()
+                                        Unit
                                     }
                                 }
 
@@ -710,40 +746,7 @@ class UnicodeActivity : BaseActivity() {
                         }
                     }
 
-                    @Composable
-                    fun NebulaAction(
-                        icon: String,
-                        title: String,
-                        modifier: Modifier,
-                        onClick: () -> Unit
-                    ) {
-                        Column(
-                            modifier = modifier
-                                .background(
-                                    Color(0xFF11162A),
-                                    RoundedCornerShape(18.dp)
-                                )
-                                .clickable { onClick() }
-                                .padding(vertical = 9.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = icon,
-                                color = Color(0xFFD6B8FF),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            )
 
-                            Spacer(Modifier.height(2.dp))
-
-                            Text(
-                                text = title,
-                                color = Color(0xFF777B9D),
-                                fontSize = 8.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
 
                     AndroidView(
                         factory = { context -> CoordinatorLayout(context).apply {
