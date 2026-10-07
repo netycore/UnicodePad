@@ -67,7 +67,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -116,41 +115,6 @@ import androidx.core.view.children
 
 
 @Suppress("DEPRECATION")
-@Composable
-private fun NebulaAction(
-    icon: String,
-    title: String,
-    modifier: Modifier,
-    onClick: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .background(
-                Color(0xFF11162A),
-                RoundedCornerShape(18.dp)
-            )
-            .clickable { onClick() }
-            .padding(vertical = 9.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = icon,
-            color = Color(0xFFD6B8FF),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(Modifier.height(2.dp))
-
-        Text(
-            text = title,
-            color = Color(0xFF777B9D),
-            fontSize = 8.sp,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}
-
 class UnicodeActivity : BaseActivity() {
     private lateinit var editText: EditText
     private var initialText by mutableStateOf<String?>(null)
@@ -428,326 +392,173 @@ class UnicodeActivity : BaseActivity() {
                     }
                     @Composable
                     fun MainView() {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(0xFF080B18))
-                        ) {
-                            Spacer(Modifier.height(toolBarHeight))
+                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFFFF7ED))) {
+                            Spacer(
+                                Modifier.height(toolBarHeight),
+                            )
 
                             Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 14.dp, vertical = 8.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Column(
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        Text(
-                                            text = "NATKHATBOARD",
-                                            color = Color(0xFFF3EFFF),
-                                            fontSize = 18.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Text(
-                                            text = "CREATE YOUR OWN STYLE",
-                                            color = Color(0xFF777B9D),
-                                            fontSize = 9.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .background(
-                                                Color(0xFF171B31),
-                                                RoundedCornerShape(18.dp)
-                                            )
-                                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                                    ) {
-                                        Text(
-                                            text = "✦  MAGIC",
-                                            color = Color(0xFFD7B8FF),
-                                            fontSize = 10.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
-                                }
-
-                                Spacer(Modifier.height(12.dp))
-
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            Color(0xFF11162A),
-                                            RoundedCornerShape(26.dp)
-                                        )
-                                        .padding(8.dp),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .background(
-                                                Color(0xFFF8F5FF),
-                                                RoundedCornerShape(20.dp)
-                                            )
-                                            .padding(horizontal = 14.dp, vertical = 12.dp)
-                                    ) {
-                                        Text(
-                                            text = if (editText.text.isNullOrEmpty())
-                                                "Start creating something ✦"
-                                            else
-                                                editText.text.toString(),
-                                            color = if (editText.text.isNullOrEmpty())
-                                                Color(0xFF9291A0)
-                                            else
-                                                Color(0xFF242033),
-                                            fontSize = 17.sp,
-                                            fontWeight = FontWeight.Medium
-                                        )
-                                    }
-
-                                    Spacer(Modifier.width(8.dp))
-
-                                    Box(
-                                        modifier = Modifier
-                                            .background(
-                                                Color(0xFF9A62FF),
-                                                RoundedCornerShape(19.dp)
-                                            )
-                                            .clickable {
-                                                copyText(showToast = Build.VERSION.SDK_INT <= 32)
-                                            }
-                                            .padding(horizontal = 15.dp, vertical = 15.dp)
-                                    ) {
-                                        Text(
-                                            text = "⧉",
-                                            color = Color.White,
-                                            fontSize = 18.sp
-                                        )
-                                    }
-                                }
-
-                                Spacer(Modifier.height(12.dp))
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement =
-                                        androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
-                                ) {
-                                    NebulaAction(
-                                        icon = "↶",
-                                        title = "UNDO",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        Unit
-                                    }
-
-                                    NebulaAction(
-                                        icon = "⧉",
-                                        title = "COPY",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        copyText(showToast = Build.VERSION.SDK_INT <= 32)
-                                    }
-
-                                    NebulaAction(
-                                        icon = "↗",
-                                        title = "SHARE",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        shareText()
-                                    }
-                                }
-
-                                Spacer(Modifier.height(8.dp))
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement =
-                                        androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
-                                ) {
-                                    NebulaAction(
-                                        icon = "↓",
-                                        title = "PASTE",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        sessionStore.startNew(cm.text?.toString() ?: "")
-                                        applyCurrentSessionToEditor()
-                                    }
-
-                                    NebulaAction(
-                                        icon = "Aa",
-                                        title = "FONT",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        chooser.spinner.performClick()
-                                    }
-
-                                    NebulaAction(
-                                        icon = "◎",
-                                        title = "LANG",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        locale.spinner.performClick()
-                                    }
-
-                                    NebulaAction(
-                                        icon = "⋯",
-                                        title = "MORE",
-                                        modifier = Modifier.weight(1f)
-                                    ) {
-                                        Unit
-                                    }
-                                }
-
-                                Spacer(Modifier.height(14.dp))
-
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            Color(0xFF11162A),
-                                            RoundedCornerShape(22.dp)
-                                        )
-                                        .padding(5.dp),
-                                    horizontalArrangement =
-                                        androidx.compose.foundation.layout.Arrangement.spacedBy(4.dp)
-                                ) {
-                                    listOf(
-                                        "ALPHABET",
-                                        "STYLES",
-                                        "SYMBOLS",
-                                        "COMBINE"
-                                    ).forEachIndexed { index, name ->
-                                        Box(
-                                            modifier = Modifier
-                                                .weight(1f)
-                                                .background(
-                                                    if (index == 0)
-                                                        Color(0xFF9A62FF)
-                                                    else
-                                                        Color.Transparent,
-                                                    RoundedCornerShape(17.dp)
-                                                )
-                                                .padding(vertical = 9.dp),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Text(
-                                                text = name,
-                                                color = if (index == 0)
-                                                    Color.White
-                                                else
-                                                    Color(0xFF777B9D),
-                                                fontSize = 8.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                        }
-                                    }
-                                }
-
-                                Spacer(Modifier.height(10.dp))
-
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = "UNICODE",
-                                        color = Color(0xFF8E91B0),
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-
-                                    Spacer(Modifier.weight(1f))
-
-                                    Text(
-                                        text = "SWIPE TO EXPLORE  ›",
-                                        color = Color(0xFF5F6382),
-                                        fontSize = 8.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-
-                                Spacer(Modifier.height(7.dp))
-
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(310.dp)
-                                        .background(
-                                            Color(0xFFF8F5FF),
-                                            RoundedCornerShape(28.dp)
-                                        )
+                                modifier = if (showBtnRow) {
+                                    Modifier.fillMaxWidth()
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                        .background(Color(0xFFEDE3FF), RoundedCornerShape(22.dp))
                                         .padding(6.dp)
-                                ) {
+                                } else Modifier.height(0.dp),
+                            ) {
+                                Row(modifier = Modifier.fillMaxWidth()) {
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(android.R.string.paste)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    sessionStore.startNew(cm.text?.toString() ?: "")
+                                                    applyCurrentSessionToEditor()
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(R.string.desc)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    val str = editText.editableText.toString()
+                                                    if (str.isEmpty()) return@setOnClickListener
+                                                    val start = editText.selectionStart
+                                                    if (start == -1) return@setOnClickListener
+                                                    val end = editText.selectionEnd
+                                                    adpPage.adapterEdit.updateString()
+                                                    var pos = if (start == end) if (start == 0) 0 else start - 1 else min(start, end)
+                                                    var i = 0
+                                                    while (pos > 0) {
+                                                        pos -= adpPage.adapterEdit.getItem(i++).length
+                                                    }
+                                                    if (pos < 0) i--
+                                                    adpPage.showDesc(null, i, adpPage.adapterEdit)
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+                                }
+                                Row(modifier = Modifier.fillMaxWidth()) {
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                text = resources.getText(android.R.string.copy)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    copyText(showToast = Build.VERSION.SDK_INT <= 32)
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+        AndroidView(
+                                            factory = { context -> Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                                btnFinish = this
+                                                viewTargets[R.id.finish] = this
+                                                text = resources.getText(finishAction)
+                                            } },
+                                            update = {
+                                                it.setOnClickListener {
+                                                    when {
+                                                        action == ACTION_INTERCEPT -> {
+                                                            setResult(RESULT_OK, Intent().apply {
+                                                                putExtra(
+                                                                    REPLACE_KEY,
+                                                                    editText.text.toString()
+                                                                )
+                                                            })
+                                                            finish()
+                                                        }
+
+                                                        Build.VERSION.SDK_INT >= 23 && action == Intent.ACTION_PROCESS_TEXT -> {
+                                                            setResult(RESULT_OK, Intent().apply {
+                                                                putExtra(
+                                                                    Intent.EXTRA_PROCESS_TEXT,
+                                                                    editText.text
+                                                                )
+                                                            })
+                                                            finish()
+                                                        }
+
+                                                        else -> {
+                                                            shareText()
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                        )
+                                }
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .background(Color(0xFFDDF7EA), RoundedCornerShape(18.dp))
+                                    .padding(horizontal = 10.dp, vertical = 5.dp),
+                            ) {
+                                AndroidView(
+                                    factory = { context -> TextView(context, null, android.R.attr.textAppearanceSmall).apply {
+                                        text = resources.getText(R.string.font)
+                                    } },
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .padding(start = 8.dp),
+                                )
+                                AndroidView(
+                                    factory = { chooser.spinner },
+                                    modifier = Modifier
+                                        .align(Alignment.CenterVertically)
+                                        .weight(2f),
+                                )
+                                AndroidView(
+                                    factory = { locale.spinner },
+                                    modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
+                                )
+                            }
+                            Box(
+                                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                                    .background(Color.White, RoundedCornerShape(24.dp))
+                                    .padding(6.dp),
+                            ) {
+                                Column {
                                     AndroidView(
-                                        factory = { pager },
-                                        update = {
-                                            pager.offscreenPageLimit = 3
-
-                                            adpPage.also { adp ->
-                                                pager.adapter = adp
-                                                scroll?.setAdapter(adp)
-                                            }
-
-                                            scroll?.setLockView(pager, true)
-
-                                            pager.setCurrentItem(
-                                                min(
-                                                    pref.getInt("page", 1),
-                                                    adpPage.count - 1
-                                                ),
-                                                false
-                                            )
-
-                                            it.adapter = adpPage
-
-                                            it.setCurrentItem(
-                                                min(
-                                                    pref.getInt("page", 1),
-                                                    adpPage.count - 1
-                                                ),
-                                                false
-                                            )
-
-                                            ViewCompat.setOnApplyWindowInsetsListener(
-                                                it
-                                            ) { _, windowInsets ->
-                                                val insets = windowInsets.getInsets(
-                                                    WindowInsetsCompat.Type.systemBars() or
-                                                        WindowInsetsCompat.Type.ime()
-                                                )
-
-                                                adpPage.onInsetChanged(insets.bottom)
-                                                WindowInsetsCompat.CONSUMED
-                                            }
-                                        },
-                                        modifier = Modifier.fillMaxSize()
+                                        factory = { context -> View(context).apply {
+                                            viewTargets[R.id.cpager] = this
+                                        } },
+                                        modifier = Modifier.fillMaxWidth().weight(0.5f),
+                                    )
+                                    AndroidView(
+                                        factory = { context -> View(context) },
+                                        modifier = Modifier.fillMaxWidth().weight(0.5f),
                                     )
                                 }
-
-                                Spacer(Modifier.height(8.dp))
-
-                                Text(
-                                    text = "✦  TAP A CHARACTER TO ADD IT",
-                                    color = Color(0xFF5F6382),
-                                    fontSize = 9.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.fillMaxWidth()
+                                AndroidView(
+                                    factory = { pager },
+                                    update = {
+                                        pager.offscreenPageLimit = 3
+                                        adpPage.also { adp ->
+                                            pager.adapter = adp
+                                            scroll?.setAdapter(adp)
+                                        }
+                                        scroll?.setLockView(pager, true)
+                                        pager.setCurrentItem(min(pref.getInt("page", 1), adpPage.count - 1), false)
+                                        it.adapter = adpPage
+                                        it.setCurrentItem(min(pref.getInt("page", 1), adpPage.count - 1), false)
+                                        ViewCompat.setOnApplyWindowInsetsListener(it) { v, windowInsets ->
+                                            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+                                            adpPage.onInsetChanged(insets.bottom)
+                                            WindowInsetsCompat.CONSUMED
+                                        }
+                                    },
+                                    modifier = Modifier.fillMaxSize(),
                                 )
                             }
                         }
                     }
-
-
-
                     AndroidView(
                         factory = { context -> CoordinatorLayout(context).apply {
                             addView(LinearLayout(context).apply {
