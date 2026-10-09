@@ -532,6 +532,7 @@ class UnicodeActivity : BaseActivity() {
                             }
                         }
                     }
+                }
                     AndroidView(
                         factory = { context -> CoordinatorLayout(context).apply {
                             addView(LinearLayout(context).apply {
