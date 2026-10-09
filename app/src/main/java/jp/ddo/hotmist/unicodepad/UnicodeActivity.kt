@@ -25,6 +25,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
@@ -408,7 +409,18 @@ class UnicodeActivity : BaseActivity() {
                                 ) {
                                     AndroidView(
                                         factory = { context ->
-                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                            com.google.android.material.button.MaterialButton(context).apply {
+                                            isAllCaps = false
+                                            textSize = 14f
+                                            setTextColor(0xFF3E236D.toInt())
+                                            setBackgroundColor(0xFFFFFFFF.toInt())
+                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
+                                            strokeWidth = 0
+                                            insetTop = 0
+                                            insetBottom = 0
+                                            stateListAnimator = null
+                                            minWidth = 0
+                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
                                                 text = resources.getText(android.R.string.paste)
                                             }
                                         },
@@ -423,7 +435,18 @@ class UnicodeActivity : BaseActivity() {
 
                                     AndroidView(
                                         factory = { context ->
-                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                            com.google.android.material.button.MaterialButton(context).apply {
+                                            isAllCaps = false
+                                            textSize = 14f
+                                            setTextColor(0xFF3E236D.toInt())
+                                            setBackgroundColor(0xFFFFFFFF.toInt())
+                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
+                                            strokeWidth = 0
+                                            insetTop = 0
+                                            insetBottom = 0
+                                            stateListAnimator = null
+                                            minWidth = 0
+                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
                                                 text = resources.getText(R.string.desc)
                                             }
                                         },
@@ -449,7 +472,18 @@ class UnicodeActivity : BaseActivity() {
 
                                     AndroidView(
                                         factory = { context ->
-                                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                                            com.google.android.material.button.MaterialButton(context).apply {
+                                            isAllCaps = false
+                                            textSize = 14f
+                                            setTextColor(0xFF3E236D.toInt())
+                                            setBackgroundColor(0xFFFFFFFF.toInt())
+                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
+                                            strokeWidth = 0
+                                            insetTop = 0
+                                            insetBottom = 0
+                                            stateListAnimator = null
+                                            minWidth = 0
+                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
                                                 text = resources.getText(android.R.string.copy)
                                             }
                                         },
@@ -464,8 +498,8 @@ class UnicodeActivity : BaseActivity() {
                             Row(
                                 modifier = Modifier.fillMaxWidth()
                                     .padding(horizontal = 12.dp, vertical = 6.dp)
-                                    .background(Color(0xFFDDF7EA), RoundedCornerShape(18.dp))
-                                    .padding(horizontal = 10.dp, vertical = 5.dp),
+                                    ,
+                                verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 AndroidView(
                                     factory = { context -> TextView(context, null, android.R.attr.textAppearanceSmall).apply {
@@ -648,7 +682,7 @@ class UnicodeActivity : BaseActivity() {
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
-                            .height(56.dp)
+                            .height(60.dp)
                             .background(Color.White)
                             .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom)),
                         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -662,8 +696,10 @@ class UnicodeActivity : BaseActivity() {
                                 fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
                                 color = if (selected) Color(0xFF3E236D) else Color(0xFF9E93A8),
                                 modifier = Modifier
+                                    .clip(RoundedCornerShape(999.dp))
+                                    .background(if (selected) Color(0xFFEDE3FF) else Color.Transparent)
                                     .clickable { pager.setCurrentItem(index, true) }
-                                    .padding(12.dp),
+                                    .padding(horizontal = 16.dp, vertical = 8.dp),
                             )
                         }
                     }
