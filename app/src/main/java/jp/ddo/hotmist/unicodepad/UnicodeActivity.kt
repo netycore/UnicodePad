@@ -50,6 +50,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -147,6 +148,7 @@ class UnicodeActivity : BaseActivity() {
     private var showChooserOnStart = false
     private val viewTargets = mutableMapOf<Int, View>()
     private val composed = mutableStateOf(false)
+    private var currentPage by mutableIntStateOf(1)
     @SuppressLint("ClickableViewAccessibility")
     public override fun onCreate(savedInstanceState: Bundle?) {
         pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -174,14 +176,7 @@ class UnicodeActivity : BaseActivity() {
         editText = if (useEmoji != "null") { AppCompatEditText(this) } else { EditText(this) }
         adpPage = PageAdapter(this, pref, editText)
         pager = LockableViewPager(this).apply {
-            addView(PagerTabStrip(this@UnicodeActivity).apply {
-                viewTargets[R.id.ctab] = this
-            }, ViewPager.LayoutParams().apply {
-                width = ViewPager.LayoutParams.MATCH_PARENT
-                height = ViewPager.LayoutParams.WRAP_CONTENT
-                gravity = Gravity.TOP
-                isDecor = true
-            })
+            viewTargets[R.id.ctab] = this
         }
         chooser = FontChooser(this@UnicodeActivity, Spinner(this).apply {
             viewTargets[R.id.fontBar] = this
@@ -521,6 +516,14 @@ class UnicodeActivity : BaseActivity() {
                                         pager.setCurrentItem(min(pref.getInt("page", 1), adpPage.count - 1), false)
                                         it.adapter = adpPage
                                         it.setCurrentItem(min(pref.getInt("page", 1), adpPage.count - 1), false)
+                                        if (it.tag != "nav_sync") {
+                                            it.tag = "nav_sync"
+                                            it.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+                                                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+                                                override fun onPageSelected(position: Int) { currentPage = position }
+                                                override fun onPageScrollStateChanged(state: Int) {}
+                                            })
+                                        }
                                         ViewCompat.setOnApplyWindowInsetsListener(it) { v, windowInsets ->
                                             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
                                             adpPage.onInsetChanged(insets.bottom)
@@ -639,8 +642,31 @@ class UnicodeActivity : BaseActivity() {
                                 adpPage.onAdHeightChanged((height * getSystem().displayMetrics.density).toInt())
                             }
                         },
-                        modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top)).padding(0.dp, editTextHeight, 0.dp, 0.dp),
+                        modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Top)).padding(0.dp, editTextHeight, 0.dp, 56.dp),
                     )
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .background(Color.White)
+                            .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom)),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        listOf("Recent", "List", "Emoji", "Find").forEachIndexed { index, label ->
+                            val selected = currentPage == index
+                            Text(
+                                text = label,
+                                fontSize = 13.sp,
+                                fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
+                                color = if (selected) Color(0xFF3E236D) else Color(0xFF9E93A8),
+                                modifier = Modifier
+                                    .clickable { pager.setCurrentItem(index, true) }
+                                    .padding(12.dp),
+                            )
+                        }
+                    }
                 }
 
                 LaunchedEffect(Unit) {
