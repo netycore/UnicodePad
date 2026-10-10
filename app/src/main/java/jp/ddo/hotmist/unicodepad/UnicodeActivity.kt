@@ -527,6 +527,7 @@ class UnicodeActivity : BaseActivity() {
                                 modifier = Modifier.fillMaxWidth().fillMaxHeight()
                                     .padding(horizontal = 10.dp, vertical = 6.dp)
                                     .background(Color.White, RoundedCornerShape(24.dp))
+                                    .clip(RoundedCornerShape(24.dp))
                                     .padding(6.dp),
                             ) {
                                 Column {
