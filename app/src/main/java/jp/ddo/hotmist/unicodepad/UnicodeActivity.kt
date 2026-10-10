@@ -327,18 +327,6 @@ class UnicodeActivity : BaseActivity() {
                                 if (showBtnClear) {
                                     AndroidView(
                                         factory = { context -> ImageButton(context).apply {
-                                            isAllCaps = false
-                                              textSize = 14f
-                                              setTextColor(0xFF3E236D.toInt())
-                                                background = android.graphics.drawable.GradientDrawable().apply {
-                                                    cornerRadius = 20 * resources.displayMetrics.density
-                                                    setColor(0xFFFFFFFF.toInt())
-                                                  }
-                                              elevation = 0f
-                                              stateListAnimator = null
-                                              minWidth = 0
-                                              minimumHeight = (40 * resources.displayMetrics.density).toInt()
-                                              setPadding(0, 0, 0, 0)
                                             setImageResource(TypedValue().also { value ->
                                                 context.theme.resolveAttribute(R.attr.cancel, value, true)
                                             }.resourceId)
@@ -360,18 +348,6 @@ class UnicodeActivity : BaseActivity() {
                             }
                             AndroidView(
                                 factory = { context -> ImageButton(context).apply {
-                                            isAllCaps = false
-                                              textSize = 14f
-                                              setTextColor(0xFF3E236D.toInt())
-                                                background = android.graphics.drawable.GradientDrawable().apply {
-                                                    cornerRadius = 20 * resources.displayMetrics.density
-                                                    setColor(0xFFFFFFFF.toInt())
-                                                  }
-                                              elevation = 0f
-                                              stateListAnimator = null
-                                              minWidth = 0
-                                              minimumHeight = (40 * resources.displayMetrics.density).toInt()
-                                              setPadding(0, 0, 0, 0)
                                     setImageResource(TypedValue().also { value ->
                                         context.theme.resolveAttribute(R.attr.backspace, value, true)
                                     }.resourceId)
@@ -434,18 +410,18 @@ class UnicodeActivity : BaseActivity() {
                                     AndroidView(
                                         factory = { context ->
                                             Button(context).apply {
-                                            isAllCaps = false
-                                              textSize = 14f
-                                              setTextColor(0xFF3E236D.toInt())
+                                                isAllCaps = false
+                                                textSize = 14f
+                                                setTextColor(0xFF3E236D.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
-                                                    cornerRadius = 20 * resources.displayMetrics.density
-                                                    setColor(0xFFFFFFFF.toInt())
-                                                  }
-                                              elevation = 0f
-                                              stateListAnimator = null
-                                              minWidth = 0
-                                              minimumHeight = (40 * resources.displayMetrics.density).toInt()
-                                              setPadding(0, 0, 0, 0)
+                                                cornerRadius = 20 * resources.displayMetrics.density
+                                                setColor(0xFFFFFFFF.toInt())
+                                                }
+                                                elevation = 0f
+                                                stateListAnimator = null
+                                                minWidth = 0
+                                                minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                                setPadding(0, 0, 0, 0)
                                                 text = resources.getText(android.R.string.paste)
                                             }
                                         },
@@ -461,18 +437,18 @@ class UnicodeActivity : BaseActivity() {
                                     AndroidView(
                                         factory = { context ->
                                             Button(context).apply {
-                                            isAllCaps = false
-                                              textSize = 14f
-                                              setTextColor(0xFF3E236D.toInt())
+                                                isAllCaps = false
+                                                textSize = 14f
+                                                setTextColor(0xFF3E236D.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
-                                                    cornerRadius = 20 * resources.displayMetrics.density
-                                                    setColor(0xFFFFFFFF.toInt())
-                                                  }
-                                              elevation = 0f
-                                              stateListAnimator = null
-                                              minWidth = 0
-                                              minimumHeight = (40 * resources.displayMetrics.density).toInt()
-                                              setPadding(0, 0, 0, 0)
+                                                cornerRadius = 20 * resources.displayMetrics.density
+                                                setColor(0xFFFFFFFF.toInt())
+                                                }
+                                                elevation = 0f
+                                                stateListAnimator = null
+                                                minWidth = 0
+                                                minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                                setPadding(0, 0, 0, 0)
                                                 text = resources.getText(R.string.desc)
                                             }
                                         },
@@ -499,18 +475,18 @@ class UnicodeActivity : BaseActivity() {
                                     AndroidView(
                                         factory = { context ->
                                             Button(context).apply {
-                                            isAllCaps = false
-                                              textSize = 14f
-                                              setTextColor(0xFF3E236D.toInt())
+                                                isAllCaps = false
+                                                textSize = 14f
+                                                setTextColor(0xFF3E236D.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
-                                                    cornerRadius = 20 * resources.displayMetrics.density
-                                                    setColor(0xFFFFFFFF.toInt())
-                                                  }
-                                              elevation = 0f
-                                              stateListAnimator = null
-                                              minWidth = 0
-                                              minimumHeight = (40 * resources.displayMetrics.density).toInt()
-                                              setPadding(0, 0, 0, 0)
+                                                cornerRadius = 20 * resources.displayMetrics.density
+                                                setColor(0xFFFFFFFF.toInt())
+                                                }
+                                                elevation = 0f
+                                                stateListAnimator = null
+                                                minWidth = 0
+                                                minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                                setPadding(0, 0, 0, 0)
                                                 text = resources.getText(android.R.string.copy)
                                             }
                                         },
