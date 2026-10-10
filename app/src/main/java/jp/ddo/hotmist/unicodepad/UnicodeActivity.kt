@@ -409,18 +409,7 @@ class UnicodeActivity : BaseActivity() {
                                 ) {
                                     AndroidView(
                                         factory = { context ->
-                                            com.google.android.material.button.MaterialButton(context).apply {
-                                            isAllCaps = false
-                                            textSize = 14f
-                                            setTextColor(0xFF3E236D.toInt())
-                                            setBackgroundColor(0xFFFFFFFF.toInt())
-                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
-                                            strokeWidth = 0
-                                            insetTop = 0
-                                            insetBottom = 0
-                                            stateListAnimator = null
-                                            minWidth = 0
-                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                            Button(context).apply {
                                                 text = resources.getText(android.R.string.paste)
                                             }
                                         },
@@ -435,18 +424,7 @@ class UnicodeActivity : BaseActivity() {
 
                                     AndroidView(
                                         factory = { context ->
-                                            com.google.android.material.button.MaterialButton(context).apply {
-                                            isAllCaps = false
-                                            textSize = 14f
-                                            setTextColor(0xFF3E236D.toInt())
-                                            setBackgroundColor(0xFFFFFFFF.toInt())
-                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
-                                            strokeWidth = 0
-                                            insetTop = 0
-                                            insetBottom = 0
-                                            stateListAnimator = null
-                                            minWidth = 0
-                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                            Button(context).apply {
                                                 text = resources.getText(R.string.desc)
                                             }
                                         },
@@ -472,18 +450,7 @@ class UnicodeActivity : BaseActivity() {
 
                                     AndroidView(
                                         factory = { context ->
-                                            com.google.android.material.button.MaterialButton(context).apply {
-                                            isAllCaps = false
-                                            textSize = 14f
-                                            setTextColor(0xFF3E236D.toInt())
-                                            setBackgroundColor(0xFFFFFFFF.toInt())
-                                            cornerRadius = (20 * resources.displayMetrics.density).toInt()
-                                            strokeWidth = 0
-                                            insetTop = 0
-                                            insetBottom = 0
-                                            stateListAnimator = null
-                                            minWidth = 0
-                                            minimumHeight = (40 * resources.displayMetrics.density).toInt()
+                                            Button(context).apply {
                                                 text = resources.getText(android.R.string.copy)
                                             }
                                         },
