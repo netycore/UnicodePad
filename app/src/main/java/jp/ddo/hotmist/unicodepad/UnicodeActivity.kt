@@ -217,7 +217,7 @@ class UnicodeActivity : BaseActivity() {
                 }
 
                 Box(
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)).fillMaxHeight(),
+                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)).fillMaxHeight(),
                 ) {
                     Column(
                         modifier = Modifier.zIndex(1.0f)
