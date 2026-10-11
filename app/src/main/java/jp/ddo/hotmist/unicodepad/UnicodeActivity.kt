@@ -175,6 +175,8 @@ class UnicodeActivity : BaseActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
         editText = if (useEmoji != "null") { AppCompatEditText(this) } else { EditText(this) }
+        editText.setLines(2)
+        editText.gravity = Gravity.TOP or Gravity.START
         adpPage = PageAdapter(this, pref, editText)
         pager = LockableViewPager(this).apply {
             viewTargets[R.id.ctab] = this
