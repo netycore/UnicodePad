@@ -382,7 +382,7 @@ class UnicodeActivity : BaseActivity() {
                                 modifier = if (showBtnRow) {
                                     Modifier.fillMaxWidth()
                                         .padding(horizontal = 12.dp, vertical = 6.dp)
-                                        .background(Color(0xFFEDE3FF), RoundedCornerShape(22.dp))
+                                        .background(Color(0xFFE9E4D8), RoundedCornerShape(22.dp))
                                         .padding(6.dp)
                                 } else Modifier.height(0.dp),
                             ) {
@@ -396,7 +396,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF3E236D.toInt())
+                                                setTextColor(0xFF20594A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -423,7 +423,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF3E236D.toInt())
+                                                setTextColor(0xFF20594A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -461,7 +461,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF3E236D.toInt())
+                                                setTextColor(0xFF20594A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -682,10 +682,10 @@ class UnicodeActivity : BaseActivity() {
                                 text = label,
                                 fontSize = 13.sp,
                                 fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                                color = if (selected) Color(0xFF3E236D) else Color(0xFF9E93A8),
+                                color = if (selected) Color(0xFF20594A) else Color(0xFF8F8A7D),
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(999.dp))
-                                    .background(if (selected) Color(0xFFEDE3FF) else Color.Transparent)
+                                    .background(if (selected) Color(0xFFE9E4D8) else Color.Transparent)
                                     .clickable { pager.setCurrentItem(index, true) }
                                     .padding(horizontal = 16.dp, vertical = 8.dp),
                             )
@@ -752,7 +752,7 @@ class UnicodeActivity : BaseActivity() {
                                 text = "ZyroxEdits",
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF3E236D)
+                                color = Color(0xFF20594A)
                             )
                             Text(
                                 text = "Unicode, with a little mischief",
