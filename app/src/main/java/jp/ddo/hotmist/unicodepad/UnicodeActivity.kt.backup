@@ -725,7 +725,7 @@ class UnicodeActivity : BaseActivity() {
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
-                                text = "NatkhatBoard",
+                                text = "ZyroxEdits",
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF3E236D)

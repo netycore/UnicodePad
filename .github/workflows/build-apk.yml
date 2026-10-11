@@ -1,4 +1,4 @@
-name: Build NatkhatBoard APK
+name: Build ZyroxEdits APK
 
 on:
   push:
@@ -66,5 +66,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: NatkhatBoard-fdroid-debug
+          name: ZyroxEdits-fdroid-debug
           path: app/build/outputs/apk/fdroid/debug/*.apk

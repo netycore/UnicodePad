@@ -58,4 +58,4 @@ for folder, size in legacy_sizes.items():
         out / "ic_launcher_foreground.png"
     )
 
-print("NatkhatBoard launcher icon images created.")
+print("ZyroxEdits launcher icon images created.")
