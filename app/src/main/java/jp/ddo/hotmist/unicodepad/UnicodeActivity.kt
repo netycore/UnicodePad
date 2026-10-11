@@ -176,6 +176,7 @@ class UnicodeActivity : BaseActivity() {
 
         editText = if (useEmoji != "null") { AppCompatEditText(this) } else { EditText(this) }
         editText.setLines(2)
+        editText.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE or android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
         editText.gravity = Gravity.TOP or Gravity.START
         adpPage = PageAdapter(this, pref, editText)
         pager = LockableViewPager(this).apply {
