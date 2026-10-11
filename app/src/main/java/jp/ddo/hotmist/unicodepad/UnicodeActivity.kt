@@ -222,22 +222,6 @@ class UnicodeActivity : BaseActivity() {
                     Column(
                         modifier = Modifier.zIndex(1.0f)
                     ) {
-                        AndroidView(
-                            factory = { toolbar },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .onGloballyPositioned { coordinates ->
-                                    with (density) {
-                                        if (toolBarHeightOverride == null) {
-                                            toolBarHeight = (coordinates.size.height - toolbar.paddingTop).toDp()
-                                        }
-                                    }
-                                }.run {
-                                    toolBarHeightOverride?.let { height ->
-                                        this.height(height)
-                                    } ?: this
-                                },
-                        )
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -391,7 +375,7 @@ class UnicodeActivity : BaseActivity() {
                     fun MainView() {
                         Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFFFF7ED))) {
                             Spacer(
-                                Modifier.height(toolBarHeight),
+                                Modifier.height(0.dp),
                             )
 
                             Column(
@@ -725,7 +709,7 @@ class UnicodeActivity : BaseActivity() {
                     DisposableEffect(lifecycleOwner) {
                         val observer = LifecycleEventObserver { _, event ->
                             if (event == Lifecycle.Event.ON_RESUME) {
-                                if (!pref.getBoolean("skip_guide", false)) {
+                                if (false && !pref.getBoolean("skip_guide", false)) {
                                     showGuide()
                                 }
                             }
