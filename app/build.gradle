@@ -6,7 +6,7 @@ android {
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "jp.ddo.hotmist.unicodepad"
+        applicationId "com.netycore.natkhatboard"
         minSdkVersion 21
         targetSdkVersion 36
         versionCode 81
