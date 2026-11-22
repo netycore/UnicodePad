@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<style name="Theme" parent="Theme.AppCompat">
 		<item name="backspace">@drawable/ic_action_backspace</item>
@@ -23,6 +23,13 @@
 		<item name="drag_handle">@drawable/ic_drag_handle</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
+                <item name="colorPrimary">#171426</item>
+                <item name="colorPrimaryDark">#090812</item>
+                <item name="colorAccent">#A78BFA</item>
+                <item name="android:windowBackground">#0B0B14</item>
+                <item name="android:statusBarColor">#090812</item>
+                <item name="android:navigationBarColor">#090812</item>
+                <item name="android:windowLightStatusBar">false</item>
 	</style>
 
 	<style name="Theme.Light" parent="Theme.AppCompat.Light">

@@ -234,7 +234,7 @@ class UnicodeActivity : BaseActivity() {
                                     }
                                 }
                                 .padding(horizontal = 12.dp, vertical = 6.dp)
-                                .background(Color(0xFFFFF7ED))
+                                .background(Color(0xFF111A2B))
                                 .padding(horizontal = 6.dp, vertical = 4.dp)
                                 .background(Color.White, RoundedCornerShape(22.dp)),
                         ) {
@@ -376,7 +376,7 @@ class UnicodeActivity : BaseActivity() {
                     }
                     @Composable
                     fun MainView() {
-                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFFFF7ED))) {
+                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFF0B1020))) {
                             Spacer(
                                 Modifier.height(0.dp),
                             )
@@ -385,7 +385,7 @@ class UnicodeActivity : BaseActivity() {
                                 modifier = if (showBtnRow) {
                                     Modifier.fillMaxWidth()
                                         .padding(horizontal = 12.dp, vertical = 6.dp)
-                                        .background(Color(0xFFE9E4D8), RoundedCornerShape(22.dp))
+                                        .background(Color(0xFF1B2336), RoundedCornerShape(22.dp))
                                         .padding(6.dp)
                                 } else Modifier.height(0.dp),
                             ) {
@@ -399,10 +399,10 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF7DE3FF.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
-                                                setColor(0xFFFFFFFF.toInt())
+                                                setColor(0xFF263249.toInt())
                                                 }
                                                 elevation = 0f
                                                 stateListAnimator = null
@@ -426,10 +426,10 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF7DE3FF.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
-                                                setColor(0xFFFFFFFF.toInt())
+                                                setColor(0xFF263249.toInt())
                                                 }
                                                 elevation = 0f
                                                 stateListAnimator = null
@@ -464,10 +464,10 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF7DE3FF.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
-                                                setColor(0xFFFFFFFF.toInt())
+                                                setColor(0xFF263249.toInt())
                                                 }
                                                 elevation = 0f
                                                 stateListAnimator = null
@@ -494,6 +494,7 @@ class UnicodeActivity : BaseActivity() {
                                 AndroidView(
                                     factory = { context -> TextView(context, null, android.R.attr.textAppearanceSmall).apply {
                                         text = resources.getText(R.string.font)
+                                        setTextColor(0xFFD7E2FF.toInt())
                                     } },
                                     modifier = Modifier
                                         .align(Alignment.CenterVertically)
@@ -513,7 +514,7 @@ class UnicodeActivity : BaseActivity() {
                             Box(
                                 modifier = Modifier.fillMaxWidth().fillMaxHeight()
                                     .padding(vertical = 6.dp)
-                                    .background(Color.White, RoundedCornerShape(24.dp))
+                                    .background(Color(0xFF151D2E), RoundedCornerShape(24.dp))
                                     .clip(RoundedCornerShape(24.dp))
                                     .padding(6.dp),
                             ) {
@@ -674,7 +675,7 @@ class UnicodeActivity : BaseActivity() {
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth()
                             .height(60.dp)
-                            .background(Color.White)
+                            .background(Color(0xFF101827))
                             .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Bottom)),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically,
@@ -685,10 +686,10 @@ class UnicodeActivity : BaseActivity() {
                                 text = label,
                                 fontSize = 13.sp,
                                 fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                                color = if (selected) Color(0xFF20594A) else Color(0xFF8F8A7D),
+                                color = if (selected) Color(0xFF7DE3FF) else Color(0xFF8591A8),
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(999.dp))
-                                    .background(if (selected) Color(0xFFE9E4D8) else Color.Transparent)
+                                    .background(if (selected) Color(0xFF25334C) else Color.Transparent)
                                     .clickable { pager.setCurrentItem(index, true) }
                                     .padding(horizontal = 16.dp, vertical = 8.dp),
                             )
