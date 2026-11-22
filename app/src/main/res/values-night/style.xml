@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.DayNight" parent="Theme" />
+    <!-- System dark mode uses the same readable dark palette as Theme. -->
+    <style name="Theme.DayNight" parent="Theme">
+        <item name="colorPrimary">#1B2435</item>
+        <item name="colorPrimaryDark">#111827</item>
+        <item name="colorAccent">#A78BFA</item>
+        <item name="colorControlActivated">#A78BFA</item>
+        <item name="colorControlHighlight">#33A78BFA</item>
+        <item name="colorButtonNormal">#344158</item>
+        <item name="android:colorAccent">#A78BFA</item>
+        <item name="android:windowBackground">#111827</item>
+        <item name="android:colorBackground">#111827</item>
+        <item name="android:textColorPrimary">#F8FAFC</item>
+        <item name="android:textColorSecondary">#CBD5E1</item>
+        <item name="android:statusBarColor">#111827</item>
+        <item name="android:navigationBarColor">#111827</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>
