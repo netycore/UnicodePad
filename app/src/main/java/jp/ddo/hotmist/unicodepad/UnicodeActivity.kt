@@ -234,7 +234,7 @@ class UnicodeActivity : BaseActivity() {
                                     }
                                 }
                                 .padding(horizontal = 12.dp, vertical = 6.dp)
-                                .background(Color(0xFFFFF7ED))
+                                .background(Color(0xFFF7F5FF))
                                 .padding(horizontal = 6.dp, vertical = 4.dp)
                                 .background(Color.White, RoundedCornerShape(22.dp)),
                         ) {
@@ -376,7 +376,7 @@ class UnicodeActivity : BaseActivity() {
                     }
                     @Composable
                     fun MainView() {
-                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFFFF7ED))) {
+                        Column(modifier = Modifier.fillMaxWidth().background(Color(0xFFF7F5FF))) {
                             Spacer(
                                 Modifier.height(0.dp),
                             )
@@ -385,7 +385,7 @@ class UnicodeActivity : BaseActivity() {
                                 modifier = if (showBtnRow) {
                                     Modifier.fillMaxWidth()
                                         .padding(horizontal = 12.dp, vertical = 6.dp)
-                                        .background(Color(0xFFE9E4D8), RoundedCornerShape(22.dp))
+                                        .background(Color(0xFFEEE9FF), RoundedCornerShape(22.dp))
                                         .padding(6.dp)
                                 } else Modifier.height(0.dp),
                             ) {
@@ -399,7 +399,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF5B3B9A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -426,7 +426,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF5B3B9A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -464,7 +464,7 @@ class UnicodeActivity : BaseActivity() {
                                             Button(context).apply {
                                                 isAllCaps = false
                                                 textSize = 14f
-                                                setTextColor(0xFF20594A.toInt())
+                                                setTextColor(0xFF5B3B9A.toInt())
                                                 background = android.graphics.drawable.GradientDrawable().apply {
                                                 cornerRadius = 20 * resources.displayMetrics.density
                                                 setColor(0xFFFFFFFF.toInt())
@@ -685,10 +685,10 @@ class UnicodeActivity : BaseActivity() {
                                 text = label,
                                 fontSize = 13.sp,
                                 fontWeight = if (selected) FontWeight.Medium else FontWeight.Normal,
-                                color = if (selected) Color(0xFF20594A) else Color(0xFF8F8A7D),
+                                color = if (selected) Color(0xFF5B3B9A) else Color(0xFF8B849B),
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(999.dp))
-                                    .background(if (selected) Color(0xFFE9E4D8) else Color.Transparent)
+                                    .background(if (selected) Color(0xFFEEE9FF) else Color.Transparent)
                                     .clickable { pager.setCurrentItem(index, true) }
                                     .padding(horizontal = 16.dp, vertical = 8.dp),
                             )
@@ -755,7 +755,7 @@ class UnicodeActivity : BaseActivity() {
                                 text = "ZyroxEdits",
                                 fontSize = 30.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF20594A)
+                                color = Color(0xFF5B3B9A)
                             )
                             Text(
                                 text = "Unicode, with a little mischief",
