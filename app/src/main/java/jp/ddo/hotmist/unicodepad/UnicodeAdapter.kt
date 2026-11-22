@@ -182,9 +182,19 @@ interface UnicodeAdapter {
             CellViewHolder(view, characterView)
         }.also {
             if (viewType != -1) {
+                val density = activity.resources.displayMetrics.density
+                val inset = (3 * density).toInt()
                 it.view.setOnClickListener(onItemClickListener)
                 it.view.setOnLongClickListener(onItemLongClickListener)
-                it.view.setBackgroundResource(reslist)
+                it.view.setBackgroundResource(R.drawable.bg_unicode_cell)
+                it.view.setPadding(inset, inset, inset, inset)
+                it.view.minimumHeight = (56 * density).toInt()
+                it.view.layoutParams = RecyclerView.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(inset, inset, inset, inset)
+                }
             }
         }
     }
