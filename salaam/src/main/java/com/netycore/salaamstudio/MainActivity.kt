@@ -1,4 +1,4 @@
-package com.netycore.salaamstudio
+package com.netycore.george
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -51,12 +51,12 @@ private fun mapUnicode(input: String, baseUpper: Int, baseLower: Int): String {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { SalaamStudioApp() }
+        setContent { GeorgeApp() }
     }
 }
 
 @Composable
-private fun SalaamStudioApp() {
+private fun GeorgeApp() {
     var text by remember { mutableStateOf("Your Name") }
     var selected by remember { mutableStateOf("All") }
     var query by remember { mutableStateOf("") }
@@ -84,11 +84,11 @@ private fun SalaamStudioApp() {
             Column(Modifier.fillMaxSize().padding(padding).padding(horizontal = 20.dp)) {
                 Row(Modifier.fillMaxWidth().padding(top = 18.dp, bottom = 18.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text("SALAAM STUDIO", color = Teal, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
-                        Text("Make words beautiful", color = Ink, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
+                        Text("GEORGE", color = Teal, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                        Text("Create your style", color = Ink, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
                     }
                     Box(Modifier.size(44.dp).clip(CircleShape).background(Color(0xFFE0F1EE)), contentAlignment = Alignment.Center) {
-                        Text("S", color = Teal, fontSize = 23.sp, fontWeight = FontWeight.Bold)
+                        Text("G", color = Teal, fontSize = 23.sp, fontWeight = FontWeight.Bold)
                     }
                 }
                 Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(1.dp)) {
