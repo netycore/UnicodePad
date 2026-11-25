@@ -297,7 +297,7 @@ private fun buildStudioCharacters(selected: StudioBlock, blocks: List<StudioBloc
     if (normalized.isNotEmpty()) {
         var cp = selected.start
         while (cp <= end && result.size < 240) {
-            if (cp !in 0xD800..0xDFFF && Character.getType(cp) != Character.UNASSIGNED) {
+            if (cp !in 0xD800..0xDFFF && Character.getType(cp) != Character.UNASSIGNED.toInt()) {
                 val item = StudioCharacter(cp)
                 if (item.name.contains(normalized, ignoreCase = true) || item.glyph.contains(query)) result.add(item)
             }
@@ -307,7 +307,7 @@ private fun buildStudioCharacters(selected: StudioBlock, blocks: List<StudioBloc
     }
     var cp = (selected.start + offset).coerceAtMost(end)
     while (cp <= end && result.size < 240) {
-        if (cp !in 0xD800..0xDFFF && Character.getType(cp) != Character.UNASSIGNED) result.add(StudioCharacter(cp))
+        if (cp !in 0xD800..0xDFFF && Character.getType(cp) != Character.UNASSIGNED.toInt()) result.add(StudioCharacter(cp))
         cp++
     }
     return result
