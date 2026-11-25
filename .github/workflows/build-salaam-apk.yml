@@ -1,0 +1,33 @@
+name: Build Salaam Studio APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'salaam/**'
+      - 'settings.gradle'
+      - '.github/workflows/build-salaam-apk.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android SDK
+        run: |
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | head -n 1)"
+          yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses || true
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platforms;android-36" "build-tools;36.0.0"
+      - name: Build standalone APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :salaam:assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Salaam-Studio-debug
+          path: salaam/build/outputs/apk/debug/*.apk
