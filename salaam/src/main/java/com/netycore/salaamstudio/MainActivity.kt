@@ -35,6 +35,19 @@ private val Teal = Color(0xFF087E78)
 private val Canvas = Color(0xFFF5F8F7)
 private val Muted = Color(0xFF75858A)
 
+private fun mapUnicode(input: String, baseUpper: Int, baseLower: Int): String {
+    return buildString {
+        input.codePoints().forEach { cp ->
+            val mapped = when (cp) {
+                in 65..90 -> baseUpper + cp - 65
+                in 97..122 -> baseLower + cp - 97
+                else -> cp
+            }
+            append(String(Character.toChars(mapped)))
+        }
+    }
+}
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +63,14 @@ private fun SalaamStudioApp() {
     val clipboard = LocalClipboardManager.current
     val styles = remember(text) {
         listOf(
-            "𝑺𝒕𝒚𝒍𝒊𝒔𝒉" to "𝑺𝒕𝒚𝒍𝒊𝒔𝒉",
-            "𝐁𝐨𝐥𝐝" to text.map { if (it in 'A'..'Z') (0x1D400 + it.code - 65).toChar() else it }.joinToString(""),
-            "𝘐𝘵𝘢𝘭𝘪𝘤" to "𝘐𝘵𝘢𝘭𝘪𝘤  $text",
-            "Double" to "𝕕𝕠𝕦𝕓𝕝𝕖  $text",
-            "Script" to "𝓢𝓬𝓻𝓲𝓹𝓽  $text",
-            "Mono" to "𝚖𝚘𝚗𝚘  $text",
-            "Circle" to "ⓒⓘⓡⓒⓛⓔ  $text",
-            "Full width" to text.map { if (it in '!'..'~') (it.code + 0xFEE0).toChar() else it }.joinToString("")
+            "Bold" to mapUnicode(text, 0x1D400, 0x1D41A),
+            "Italic" to mapUnicode(text, 0x1D434, 0x1D44E),
+            "Bold italic" to mapUnicode(text, 0x1D468, 0x1D482),
+            "Double-struck" to mapUnicode(text, 0x1D538, 0x1D552),
+            "Script" to mapUnicode(text, 0x1D49C, 0x1D4B6),
+            "Monospace" to mapUnicode(text, 0x1D670, 0x1D68A),
+            "Circled" to text.map { if (it in 'A'..'Z') String(Character.toChars(0x24B6 + it.code - 65)) else it.toString() }.joinToString(""),
+            "Full width" to text.map { if (it in '!'..'~') String(Character.toChars(it.code + 0xFEE0)) else it.toString() }.joinToString("")
         )
     }
     MaterialTheme(colorScheme = lightColorScheme(primary = Teal, background = Canvas, surface = Color.White)) {
