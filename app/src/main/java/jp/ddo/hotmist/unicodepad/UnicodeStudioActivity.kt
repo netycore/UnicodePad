@@ -120,7 +120,7 @@ private fun UnicodeStudioApp() {
                             onValueChange = { query = it; pageOffset = 0 },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
-                            placeholder = { Text("Search name, symbol or U+ code") },
+                            placeholder = { Text("Search this block by name, glyph or U+ code") },
                             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                             shape = RoundedCornerShape(18.dp),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii)
