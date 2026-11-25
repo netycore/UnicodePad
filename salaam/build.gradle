@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    namespace 'com.netycore.salaamstudio'
+    namespace 'com.netycore.george'
     compileSdkVersion 36
 
     defaultConfig {
-        applicationId "com.netycore.salaamstudio"
+        applicationId "com.netycore.george"
         minSdkVersion 23
         targetSdkVersion 36
         versionCode 1
