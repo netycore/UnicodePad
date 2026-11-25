@@ -3,13 +3,9 @@ package com.netycore.george
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -18,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.AnnotatedString
@@ -26,65 +21,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-private val Navy = Color(0xFF152631)
-private val Teal = Color(0xFF087F78)
-private val Page = Color(0xFFF3F7F7)
-private val Subtle = Color(0xFF71838A)
-private val White = Color.White
+private val Ink = Color(0xFF202B55)
+private val Blue = Color(0xFF3949AB)
+private val Accent = Color(0xFFE83EBD)
+private val Canvas = Color(0xFFF0F2F4)
+private val Cell = Color(0xFFFFFFFF)
+private val Muted = Color(0xFF788092)
 
-private data class Style(val name: String, val group: String, val sample: String)
+private data class Board(val name: String, val chars: List<String>)
 
-private fun convert(input: String, upper: Int, lower: Int): String = buildString {
-    var i = 0
-    while (i < input.length) {
-        val cp = input.codePointAt(i)
-        val mapped = when (cp) {
-            in 65..90 -> upper + cp - 65
-            in 97..122 -> lower + cp - 97
-            else -> cp
-        }
-        append(String(Character.toChars(mapped)))
-        i += Character.charCount(cp)
-    }
-}
-
-private fun circled(input: String): String = buildString {
-    var i = 0
-    while (i < input.length) {
-        val cp = input.codePointAt(i)
-        val mapped = when (cp) {
-            in 65..90 -> 0x24B6 + cp - 65
-            in 97..122 -> 0x24D0 + cp - 97
-            in 49..57 -> 0x2460 + cp - 49
-            48 -> 0x24EA
-            else -> cp
-        }
-        append(String(Character.toChars(mapped)))
-        i += Character.charCount(cp)
-    }
-}
-
-private fun fullWidth(input: String): String = buildString {
-    input.forEach { c -> append(if (c in '!'..'~') (c.code + 0xFEE0).toChar() else c) }
-}
-
-private fun makeStyles(value: String): List<Style> = listOf(
-    Style("Bold", "Popular", convert(value, 0x1D400, 0x1D41A)),
-    Style("Italic", "Popular", convert(value, 0x1D434, 0x1D44E)),
-    Style("Bold Italic", "Popular", convert(value, 0x1D468, 0x1D482)),
-    Style("Sans Serif", "Popular", convert(value, 0x1D5A0, 0x1D5BA)),
-    Style("Sans Bold", "Bold", convert(value, 0x1D5D4, 0x1D5EE)),
-    Style("Sans Italic", "Fancy", convert(value, 0x1D608, 0x1D622)),
-    Style("Double Struck", "Fancy", convert(value, 0x1D538, 0x1D552)),
-    Style("Monospace", "Fancy", convert(value, 0x1D670, 0x1D68A)),
-    Style("Script", "Fancy", convert(value, 0x1D49C, 0x1D4B6)),
-    Style("Bold Script", "Fancy", convert(value, 0x1D4D0, 0x1D4EA)),
-    Style("Fraktur", "Fancy", convert(value, 0x1D504, 0x1D51E)),
-    Style("Bold Fraktur", "Fancy", convert(value, 0x1D56C, 0x1D586)),
-    Style("Circled", "Symbols", circled(value)),
-    Style("Full Width", "Symbols", fullWidth(value)),
-    Style("Squared", "Symbols", value.map { if (it in 'A'..'Z') String(Character.toChars(0x1F130 + it.code - 65)) else it.toString() }.joinToString("")),
-    Style("Small Caps", "Fancy", value.map { if (it in 'a'..'z') "ᴀʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ"[it.code - 97].toString() else it.toString() }.joinToString(""))
+private val boards = listOf(
+    Board("ALPHABET", ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz").map { it.toString() } +
+        listOf("Ⓐ","Ⓑ","Ⓒ","ⓐ","ⓑ","ⓒ","𝐀","𝐁","𝑨","𝒜","𝔄","𝔸","Ａ","ᴬ","ᴀ")),
+    Board("NUMBERS", listOf("0","1","2","3","4","5","6","7","8","9","⓪","①","②","③","④","⑤","⑥","⑦","⑧","⑨","⑴","⑵","⑶","⑷","⑸","⅟","½","⅓","⅔","¼","¾","⅛","⅜","⅝","⅞")),
+    Board("MATH-OPERATORS", listOf("√","∛","∜","∑","∏","∫","∬","∮","∆","∇","±","∓","×","÷","·","⋅","∙","∘","∗","∧","∨","¬","∩","∪","⊕","⊗","⊙","≠","≤","≥","≈","≡","∞","∝","∴","∵","∈","∉","∋","∅","∀","∃")),
+    Board("GEOMETRY", listOf("△","▽","◁","▷","◀","▶","▲","▼","◆","◇","■","□","▪","▫","●","○","◉","◎","◌","◍","◐","◑","◒","◓","◔","◕","⬟","⬢","⬡","⬠")),
+    Board("SHAPES", listOf("★","☆","✦","✧","✩","✪","✫","✬","✭","✮","✯","✰","♡","♥","❤","❥","❣","❖","※","⁂","✿","❀","❁","❃","❋","☀","☁","☂","☯","☮","⚑","⚙")),
+    Board("ARROWS", listOf("←","↑","→","↓","↔","↕","↖","↗","↘","↙","⇐","⇑","⇒","⇓","⇔","⇕","➜","➤","➔","⟵","⟶","⟷","⤴","⤵")),
+    Board("ARABIC", listOf("ء","آ","أ","ؤ","إ","ئ","ا","ب","ة","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","ه","و","ي","لا","ﷲ","ﷺ")),
+    Board("JAPANESE", listOf("あ","い","う","え","お","か","き","く","け","こ","さ","し","す","せ","そ","た","ち","つ","て","と","な","に","ぬ","ね","の","は","ひ","ふ","へ","ほ","ま","み","む","め","も","や","ゆ","よ","ら","り","る","れ","ろ","わ","を","ん","ア","イ","ウ","エ","オ","カ","キ","ク","ケ","コ")),
+    Board("CHINESE", listOf("一","二","三","四","五","六","七","八","九","十","人","大","小","中","山","水","火","木","金","土","日","月","年","天","地","文","字","語","学","愛","心","好","明","龍","風")),
+    Board("EMOJI", listOf("😀","😁","😂","🤣","😊","😍","🥰","😘","😎","🤔","😭","😴","🔥","✨","⭐","❤️","💙","💜","💚","🖤","👍","👏","🙏","💯","🎉","🌹","☀️","🌙","⚡","🍀")),
+    Board("CLIPBOARD", emptyList())
 )
 
 class MainActivity : ComponentActivity() {
@@ -96,167 +54,147 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun GeorgeApp() {
-    var value by remember { mutableStateOf("George") }
-    var category by remember { mutableStateOf("All") }
-    var query by remember { mutableStateOf("") }
-    var page by remember { mutableIntStateOf(0) }
-    val favorites = remember { mutableStateListOf<String>() }
+    var text by remember { mutableStateOf("") }
+    var selectedBoard by remember { mutableIntStateOf(0) }
+    var fontSize by remember { mutableIntStateOf(22) }
+    var findText by remember { mutableStateOf("") }
+    var replaceText by remember { mutableStateOf("") }
+    var showFind by remember { mutableStateOf(false) }
+    var showInfo by remember { mutableStateOf(false) }
+    var selecting by remember { mutableStateOf(false) }
+    val history = remember { mutableStateListOf<String>() }
     val clipboard = LocalClipboardManager.current
-    val styles = remember(value) { makeStyles(value) }
-    val categories = listOf("All", "Popular", "Bold", "Fancy", "Symbols")
+    val recent = remember { mutableStateListOf<String>() }
+    val custom = remember { mutableStateListOf<String>() }
+    val activeBoard = boards[selectedBoard]
+    val chars = when (activeBoard.name) {
+        "CLIPBOARD" -> recent.toList().asReversed()
+        else -> activeBoard.chars
+    } + if (activeBoard.name == "CUSTOM") custom.toList() else emptyList()
 
-    MaterialTheme(colorScheme = lightColorScheme(primary = Teal, background = Page, surface = White)) {
+    fun insert(value: String) {
+        history.add(text)
+        text += value
+        recent.remove(value)
+        recent.add(value)
+    }
+    fun undo() { if (history.isNotEmpty()) { text = history.removeAt(history.lastIndex) } }
+
+    MaterialTheme(colorScheme = lightColorScheme(primary = Blue, background = Canvas, surface = Cell)) {
         Scaffold(
-            containerColor = Page,
+            containerColor = Canvas,
+            topBar = {
+                Row(Modifier.fillMaxWidth().background(Blue).padding(horizontal = 18.dp, vertical = 15.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text("GEORGE", color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 2.sp)
+                        Text("UNICODE CHARACTER BOARD", color = Color.White.copy(alpha = .72f), fontSize = 9.sp, letterSpacing = 1.5.sp)
+                    }
+                    Text("Text size", color = Color.White.copy(alpha = .8f), fontSize = 10.sp)
+                    Spacer(Modifier.width(6.dp))
+                    TextButton(onClick = { fontSize = if (fontSize >= 36) 12 else fontSize + 2 }) {
+                        Text("$fontSize  ▾", color = Color.White, fontSize = 17.sp, fontWeight = FontWeight.Bold)
+                    }
+                    IconButton(onClick = { showInfo = true }) { Icon(Icons.Rounded.MoreVert, null, tint = Color.White) }
+                }
+            },
             bottomBar = {
-                NavigationBar(containerColor = White, tonalElevation = 8.dp) {
-                    NavigationBarItem(selected = page == 0, onClick = { page = 0 }, icon = { Icon(Icons.Rounded.TextFields, null) }, label = { Text("Studio") })
-                    NavigationBarItem(selected = page == 1, onClick = { page = 1 }, icon = { Icon(Icons.Rounded.GridView, null) }, label = { Text("Characters") })
-                    NavigationBarItem(selected = page == 2, onClick = { page = 2 }, icon = { Icon(Icons.Rounded.Favorite, null) }, label = { Text("Saved") })
+                Row(Modifier.fillMaxWidth().background(Blue).navigationBarsPadding().padding(horizontal = 5.dp, vertical = 7.dp), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+                    BottomAction(Icons.Rounded.ContentCopy, "Copy") { clipboard.setText(AnnotatedString(text)) }
+                    BottomAction(Icons.Rounded.ContentCut, "Cut") { clipboard.setText(AnnotatedString(text)); text = "" }
+                    BottomAction(Icons.Rounded.ContentPaste, "Paste") { clipboard.getText()?.let { insert(it.text) } }
+                    BottomAction(Icons.Rounded.SpaceBar, "Space") { insert(" ") }
+                    BottomAction(Icons.Rounded.SubdirectoryArrowLeft, "Enter") { insert("\n") }
+                    BottomAction(Icons.Rounded.Backspace, "Delete") { if (text.isNotEmpty()) { history.add(text); text = text.dropLast(1) } }
                 }
             }
         ) { padding ->
             Column(Modifier.fillMaxSize().padding(padding)) {
-                Row(
-                    Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 18.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(Modifier.weight(1f)) {
-                        Text("GEORGE  •  UNICODE STUDIO", color = Teal, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-                        Text(when (page) { 1 -> "Character map"; 2 -> "Your collection"; else -> "Make text unique" }, color = Navy, fontSize = 25.sp, fontWeight = FontWeight.ExtraBold)
-                    }
-                    Box(Modifier.size(46.dp).clip(RoundedCornerShape(16.dp)).background(Teal), contentAlignment = Alignment.Center) {
-                        Text("G", color = White, fontSize = 25.sp, fontWeight = FontWeight.Black)
+                // Editor surface
+                Card(Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 9.dp), shape = RoundedCornerShape(13.dp), colors = CardDefaults.cardColors(containerColor = Cell), elevation = CardDefaults.cardElevation(2.dp)) {
+                    Column(Modifier.padding(11.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("YOUR TEXT", color = Muted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp, modifier = Modifier.weight(1f))
+                            Text("${text.length} characters", color = Muted, fontSize = 10.sp)
+                            IconButton(onClick = { clipboard.setText(AnnotatedString(text)) }, modifier = Modifier.size(34.dp)) { Icon(Icons.Rounded.Share, null, tint = Blue) }
+                            IconButton(onClick = { text = "" }, modifier = Modifier.size(34.dp)) { Icon(Icons.Rounded.DeleteOutline, null, tint = Blue) }
+                        }
+                        Box(Modifier.fillMaxWidth().heightIn(min = 112.dp, max = 180.dp).verticalScroll(rememberScrollState()).padding(vertical = 5.dp)) {
+                            if (text.isEmpty()) Text("Tap characters below to build your text…", color = Muted.copy(alpha = .7f), fontSize = 17.sp)
+                            BasicTextField(value = text, onValueChange = { history.add(text); text = it }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(color = Ink, fontSize = fontSize.sp, lineHeight = (fontSize + 9).sp))
+                        }
+                        Divider(color = Canvas)
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            EditorAction(Icons.Rounded.Undo, "Undo", { undo() })
+                            EditorAction(Icons.Rounded.Redo, "Redo", { })
+                            EditorAction(Icons.Rounded.Keyboard, "Keyboard", { })
+                            EditorAction(Icons.Rounded.Search, "Find", { showFind = !showFind })
+                            EditorAction(Icons.Rounded.Info, "Info", { showInfo = true })
+                            EditorAction(Icons.Rounded.SelectAll, "Select", { selecting = !selecting })
+                        }
+                        if (showFind) {
+                            OutlinedTextField(findText, { findText = it }, Modifier.fillMaxWidth(), label = { Text("Find") }, singleLine = true)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                OutlinedTextField(replaceText, { replaceText = it }, Modifier.weight(1f), label = { Text("Replace with") }, singleLine = true)
+                                TextButton(onClick = { if (findText.isNotEmpty()) text = text.replaceFirst(findText, replaceText) }) { Text("Replace") }
+                                TextButton(onClick = { if (findText.isNotEmpty()) text = text.replace(findText, replaceText) }) { Text("All") }
+                            }
+                        }
                     }
                 }
-
-                when (page) {
-                    0 -> {
-                        Column(Modifier.fillMaxWidth().padding(horizontal = 18.dp)) {
-                            Card(shape = RoundedCornerShape(24.dp), colors = CardDefaults.cardColors(containerColor = White)) {
-                                Column(Modifier.padding(18.dp)) {
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text("TEXT EDITOR", color = Subtle, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp, modifier = Modifier.weight(1f))
-                                        Text("${value.length} chars", color = Teal, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                                    }
-                                    Spacer(Modifier.height(14.dp))
-                                    BasicTextField(
-                                        value = value,
-                                        onValueChange = { value = it },
-                                        textStyle = androidx.compose.ui.text.TextStyle(color = Navy, fontSize = 22.sp, fontWeight = FontWeight.SemiBold),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        decorationBox = { inner ->
-                                            if (value.isEmpty()) Text("Type your text here...", color = Subtle, fontSize = 20.sp)
-                                            inner()
-                                        }
-                                    )
-                                    Spacer(Modifier.height(14.dp))
-                                    Row(verticalAlignment = Alignment.CenterVertically) {
-                                        TextButton(onClick = { value = "" }) { Icon(Icons.Rounded.Backspace, null); Spacer(Modifier.width(5.dp)); Text("Clear") }
-                                        Spacer(Modifier.weight(1f))
-                                        FilledTonalButton(onClick = { clipboard.setText(AnnotatedString(value)) }, shape = RoundedCornerShape(12.dp)) {
-                                            Icon(Icons.Rounded.ContentCopy, null, Modifier.size(16.dp)); Spacer(Modifier.width(6.dp)); Text("Copy text")
-                                        }
-                                    }
-                                }
-                            }
-                            Spacer(Modifier.height(20.dp))
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Explore styles", color = Navy, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                                Text("${styles.size} styles", color = Subtle, fontSize = 12.sp)
-                            }
-                            Spacer(Modifier.height(10.dp))
-                            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                categories.forEach { item ->
-                                    FilterChip(selected = category == item, onClick = { category = item }, label = { Text(item) }, shape = RoundedCornerShape(50))
-                                }
-                            }
-                            Spacer(Modifier.height(10.dp))
-                            OutlinedTextField(
-                                value = query, onValueChange = { query = it }, modifier = Modifier.fillMaxWidth(),
-                                placeholder = { Text("Find a text style") }, leadingIcon = { Icon(Icons.Rounded.Search, null) },
-                                trailingIcon = { if (query.isNotEmpty()) IconButton(onClick = { query = "" }) { Icon(Icons.Rounded.Close, null) } },
-                                shape = RoundedCornerShape(16.dp), singleLine = true
-                            )
-                        }
-                        val visible = styles.filter {
-                            (category == "All" || it.group == category) &&
-                                (query.isBlank() || it.name.contains(query, true) || it.sample.contains(query, true))
-                        }
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize().padding(horizontal = 18.dp),
-                            verticalArrangement = Arrangement.spacedBy(9.dp),
-                            contentPadding = PaddingValues(top = 12.dp, bottom = 18.dp)
-                        ) {
-                            items(visible) { style ->
-                                StyleCard(style, favorites.contains(style.name), {
-                                    clipboard.setText(AnnotatedString(style.sample))
-                                }, {
-                                    if (favorites.contains(style.name)) favorites.remove(style.name) else favorites.add(style.name)
-                                })
-                            }
-                        }
+                Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 2.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(if (selecting) "SELECTION MODE" else "CHARACTER CATEGORIES", color = Muted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, modifier = Modifier.weight(1f))
+                    TextButton(onClick = { selectedBoard = boards.indexOfFirst { it.name == "CLIPBOARD" }.coerceAtLeast(0) }) { Text("RECENT", fontSize = 10.sp) }
+                    TextButton(onClick = { selectedBoard = boards.indexOfFirst { it.name == "EMOJI" } }) { Text("EMOJI", fontSize = 10.sp) }
+                }
+                ScrollableTabRow(selectedTabIndex = selectedBoard, edgePadding = 8.dp, containerColor = Blue, contentColor = Color.White, indicator = { positions ->
+                    if (selectedBoard < positions.size) TabRowDefaults.SecondaryIndicator(Modifier.tabIndicatorOffset(positions[selectedBoard]), color = Accent, height = 3.dp)
+                }) {
+                    boards.forEachIndexed { index, board ->
+                        Tab(selected = selectedBoard == index, onClick = { selectedBoard = index }, text = { Text(board.name, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1) })
                     }
-                    1 -> {
-                        val chars = (0x1F300..0x1F5FF).map { String(Character.toChars(it)) } +
-                            listOf("★", "☆", "♡", "♥", "♛", "♕", "♔", "⚡", "☯", "☮", "✓", "✦", "✧", "❖", "※", "∞", "ツ", "彡", "々", "〆")
-                        Column(Modifier.fillMaxSize().padding(horizontal = 18.dp)) {
-                            Text("Tap any symbol to copy it", color = Subtle, fontSize = 13.sp)
-                            Spacer(Modifier.height(14.dp))
-                            androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-                                columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(6),
-                                verticalArrangement = Arrangement.spacedBy(8.dp),
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                contentPadding = PaddingValues(bottom = 18.dp)
-                            ) {
-                                items(chars.size) { index ->
-                                    Surface(onClick = { clipboard.setText(AnnotatedString(chars[index])) }, shape = RoundedCornerShape(13.dp), color = White) {
-                                        Box(Modifier.aspectRatio(1f), contentAlignment = Alignment.Center) {
-                                            Text(chars[index], fontSize = 23.sp)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else -> {
-                        val saved = styles.filter { favorites.contains(it.name) }
-                        if (saved.isEmpty()) {
-                            Box(Modifier.fillMaxSize().padding(30.dp), contentAlignment = Alignment.Center) {
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Icon(Icons.Rounded.FavoriteBorder, null, tint = Teal, modifier = Modifier.size(42.dp))
-                                    Spacer(Modifier.height(12.dp))
-                                    Text("No saved styles yet", color = Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                                    Text("Tap the heart on any style to save it here.", color = Subtle, fontSize = 13.sp)
-                                }
-                            }
-                        } else {
-                            LazyColumn(Modifier.fillMaxSize().padding(horizontal = 18.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-                                items(saved) { style -> StyleCard(style, true, { clipboard.setText(AnnotatedString(style.sample)) }, { favorites.remove(style.name) }) }
+                }
+                if (activeBoard.name == "CLIPBOARD" && chars.isEmpty()) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("Recently used characters appear here", color = Muted) }
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(7),
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(start = 7.dp, end = 7.dp, top = 7.dp, bottom = 12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(chars.size) { index ->
+                            val ch = chars[index]
+                            Surface(onClick = { insert(ch) }, color = Cell, shape = RoundedCornerShape(4.dp), modifier = Modifier.aspectRatio(1.05f), shadowElevation = 1.dp) {
+                                Box(contentAlignment = Alignment.Center) { Text(ch, color = Ink, fontSize = 22.sp, maxLines = 1) }
                             }
                         }
                     }
                 }
             }
         }
+        if (showInfo) {
+            AlertDialog(onDismissRequest = { showInfo = false }, confirmButton = { TextButton(onClick = { showInfo = false }) { Text("Close") } }, title = { Text("George Character Info") }, text = { Text("Unicode character board and text editor. Tap any table cell to insert it into your editor.\n\nCharacters: ${text.codePointCount(0, text.length)}\nUTF-16 units: ${text.length}") })
+        }
     }
 }
 
 @Composable
-private fun StyleCard(style: Style, favorite: Boolean, onCopy: () -> Unit, onFavorite: () -> Unit) {
-    Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = White)) {
-        Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 12.dp, bottom = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text(style.name.uppercase(), color = Subtle, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                Spacer(Modifier.height(5.dp))
-                Text(style.sample.ifEmpty { "Preview appears here" }, color = Navy, fontSize = 19.sp, fontWeight = FontWeight.Medium, maxLines = 2)
-            }
-            IconButton(onClick = onFavorite) {
-                Icon(if (favorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder, null, tint = if (favorite) Color(0xFFE05A71) else Subtle)
-            }
-            FilledTonalIconButton(onClick = onCopy) {
-                Icon(Icons.Rounded.ContentCopy, contentDescription = "Copy style", tint = Teal)
-            }
+private fun BottomAction(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, action: () -> Unit) {
+    TextButton(onClick = action, contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(icon, null, tint = Color.White, modifier = Modifier.size(19.dp))
+            Text(label, color = Color.White, fontSize = 9.sp)
+        }
+    }
+}
+
+@Composable
+private fun EditorAction(icon: androidx.compose.ui.graphics.vector.ImageVector, label: String, action: () -> Unit) {
+    TextButton(onClick = action, contentPadding = PaddingValues(horizontal = 3.dp, vertical = 2.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Icon(icon, null, tint = Blue, modifier = Modifier.size(19.dp))
+            Text(label, color = Muted, fontSize = 8.sp)
         }
     }
 }
