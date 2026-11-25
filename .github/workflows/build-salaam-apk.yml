@@ -6,6 +6,7 @@ on:
     paths:
       - 'salaam/**'
       - 'settings.gradle'
+      - 'build.gradle'
       - '.github/workflows/build-salaam-apk.yml'
 
 jobs:
