@@ -438,8 +438,9 @@ private fun GeorgeApp() {
     val custom = remember { mutableStateListOf<String>() }
     val activeBoard = boards[selectedBoard]
     var selectedBlock by remember { mutableIntStateOf(0) }
+    var blockQuery by remember { mutableStateOf("") }
     val block = unicodeBlocks[selectedBlock.coerceIn(0, unicodeBlocks.lastIndex)]
-    val chars = if (activeBoard.name == "UNICODE BLOCKS") (block.start..block.end).map { String(Character.toChars(it)) } else when (activeBoard.name) {
+    val chars = if (activeBoard.name == "UNICODE BLOCKS") (block.start..block.end).filter { Character.getType(it) != Character.UNASSIGNED.toInt() && it !in 0xD800..0xDFFF }.map { String(Character.toChars(it)) } else when (activeBoard.name) {
         "CLIPBOARD" -> recent.toList().asReversed()
         else -> activeBoard.chars
     } + if (activeBoard.name == "CUSTOM") custom.toList() else emptyList()
@@ -526,8 +527,18 @@ private fun GeorgeApp() {
                     }
                 }
                 if (activeBoard.name == "UNICODE BLOCKS") {
+                    OutlinedTextField(
+                        value = blockQuery,
+                        onValueChange = { blockQuery = it },
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp),
+                        singleLine = true,
+                        label = { Text("Find Unicode category") },
+                        leadingIcon = { Icon(Icons.Rounded.Search, null) }
+                    )
                     Row(Modifier.fillMaxWidth().background(Color(0xFFE5E8F0)).horizontalScroll(rememberScrollState()).padding(horizontal = 6.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
-                        unicodeBlocks.forEachIndexed { index, item ->
+                        unicodeBlocks.withIndex().filter { blockQuery.isBlank() || it.value.name.contains(blockQuery, ignoreCase = true) || "U+%04X".format(it.value.start).contains(blockQuery, ignoreCase = true) }.forEach { entry ->
+                            val index = entry.index
+                            val item = entry.value
                             FilterChip(selected = selectedBlock == index, onClick = { selectedBlock = index }, label = { Text(item.name, fontSize = 10.sp, maxLines = 1) }, modifier = Modifier.padding(end = 5.dp))
                         }
                     }
