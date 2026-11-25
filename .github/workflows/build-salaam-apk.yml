@@ -1,4 +1,4 @@
-name: Build Salaam Studio APK
+name: Build George APK
 
 on:
   workflow_dispatch:
@@ -29,5 +29,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Salaam-Studio-debug
+          name: George-debug
           path: salaam/build/outputs/apk/debug/*.apk
